@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article 2</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Article 2</h1>
+    <a href="index.html" class="cool-button">Back to Homepage</a>
+  </header>
+
+  <main>
+    <article>
+      <h2>Title of Article 2</h2>
+      <p>This is the content of Article 2. You can paste your text here.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque orci ac turpis aliquam, a tincidunt nisi ultrices. Vivamus nec mi nec magna tincidunt tincidunt. Donec auctor, ligula vel bibendum tincidunt, odio ligula euismod nisi, non tincidunt odio metus nec metus. Sed euismod, sapien nec aliquam tincidunt, odio ligula euismod nisi, non tincidunt odio metus nec metus.</p>
+    </article>
+  </main>
+</body>
+</html>
+
