@@ -1,40 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuantDim Home</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Anonymous Job Complaints</title>
+  <!-- Load Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
   
+  <!-- Your Firebase Config (from your screenshot) -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzSAgPwAvi8KvJrGrF9-AErahTTAj0f9Y69z1w",
+      authDomain: "atLantean-theme-354383.firebaseapp.com",
+      databaseURL: "https://atLantean-theme-354383-default-rtdb.firebaseio.com",
+      projectId: "atLantean-theme-354383",
+      storageBucket: "atLantean-theme-354383.firebasestorage.app",
+      messagingSenderId: "420649489275",
+      appId: "1:420649489275:web:d7465c15ec4d844935e3de"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+  
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+    textarea { width: 100%; height: 150px; }
+    button { background: #ff4444; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+  </style>
 </head>
 <body>
-      <script src="script.js"></script>
-  <header>
-    <h1>Explore</h1>
-    <p>Cognitive architectures and the world around them.</p>
-  </header>
+  <h1>Complain About Your Job</h1>
+  <p><i>100% anonymous</i></p>
+  
+  <form id="complaintForm">
+    <input type="text" id="employer" placeholder="Company Name (e.g., Amazon)" required><br><br>
+    <input type="text" id="role" placeholder="Your Role (e.g., Cashier)"><br><br>
+    <textarea id="complaint" placeholder="What pissed you off today?" required></textarea><br>
+    <button type="submit">Submit Anonymously</button>
+  </form>
 
-  <main>
-    <!-- Example Card -->
-    <div class="cool-card" onclick="location.href='Article1.html';">
-      <h2>Piece 1</h2>
-      <p>Click here to read Article #1 </p>
-    </div>
-
-    <!-- Example Card -->
-    <div class="cool-card" onclick="location.href='Article2.html';">
-      <h2>Piece 2</h2>
-      <p>Click here to read Article #2 </p>
-    </div>
-
-        <!-- Example Card -->
-    <div class="cool-card" onclick="location.href='Article3.pdf';">
-      <h2>Piece 3</h2>
-      <p>Click here to read Article #3 </p>
-    </div>
-
-    <!-- Add more buttons or cards as needed -->
-  </main>
+  <script>
+    document.getElementById("complaintForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const employer = document.getElementById("employer").value;
+      const role = document.getElementById("role").value;
+      const complaint = document.getElementById("complaint").value;
+      
+      // Push to Firebase
+      db.ref("complaints").push({
+        employer: employer,
+        role: role || "Not specified",
+        complaint: complaint,
+        timestamp: new Date().toISOString()
+      }).then(() => {
+        alert("Complaint submitted! 🎉");
+        document.getElementById("complaintForm").reset();
+      }).catch((error) => {
+        alert("Error: " + error.message);
+      });
+    });
+  </script>
 </body>
 </html>
-
