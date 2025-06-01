@@ -75,6 +75,20 @@
             font-family: 'Noto Serif SC', serif;
             font-size: 1.5rem;
         }
+        
+        .fade-in {
+            animation: fadeIn 1.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .verse-text {
+            font-style: italic;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
@@ -115,8 +129,7 @@
                     <span class="chinese-character text-2xl">道</span>
                     <span class="text-sm text-blue-300">Chapter <span id="chapter-number">1</span></span>
                 </div>
-                <p id="quote-text" class="text-lg italic mb-4"></p>
-                <p id="quote-translation" class="text-blue-200"></p>
+                <p id="quote-text" class="verse-text mb-4"></p>
                 <div class="mt-6 flex justify-end">
                     <button id="new-quote-btn" class="px-4 py-2 bg-blue-800 hover:bg-blue-700 rounded-full text-sm flex items-center gap-2">
                         <i class="fas fa-sync-alt"></i> New Wisdom
@@ -147,7 +160,6 @@
             const quoteContainer = document.getElementById('quote-container');
             const instructions = document.getElementById('instructions');
             const quoteText = document.getElementById('quote-text');
-            const quoteTranslation = document.getElementById('quote-translation');
             const chapterNumber = document.getElementById('chapter-number');
             const newQuoteBtn = document.getElementById('new-quote-btn');
             
@@ -155,57 +167,331 @@
             let quotes = [];
             let currentQuoteIndex = -1;
             
-            // Tao Te Ching quotes (Wayne Dyer's interpretations)
+            // Complete Tao Te Ching quotes (Wayne Dyer's interpretations)
             quotes = [
                 {
                     chapter: 1,
-                    text: "The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name.",
-                    translation: "The unnamable is the eternally real. Naming is the origin of all particular things."
+                    text: "The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name. The unnamable is the eternally real. Naming is the origin of all particular things."
                 },
                 {
                     chapter: 2,
-                    text: "When people see some things as beautiful, other things become ugly. When people see some things as good, other things become bad.",
-                    translation: "Being and non-being create each other. Difficult and easy support each other."
+                    text: "When people see some things as beautiful, other things become ugly. When people see some things as good, other things become bad. Being and non-being create each other. Difficult and easy support each other."
+                },
+                {
+                    chapter: 3,
+                    text: "If you overvalue possessions, people begin to steal. By not displaying what is desirable, you will cause the people's hearts to remain undisturbed. The sage governs by emptying minds and hearts, by weakening ambitions and strengthening bones."
+                },
+                {
+                    chapter: 4,
+                    text: "The Tao is like a bellows: empty and inexhaustible. The more it is used, the more it produces. Hold on to the center. Man was made to sit quietly and find the truth within."
+                },
+                {
+                    chapter: 5,
+                    text: "Heaven and earth are impartial; they see the ten thousand things as straw dogs. The sage is not sentimental; he treats all his people as straw dogs. The sage is like heaven and earth: to him none are especially dear nor is there anyone he disfavors."
+                },
+                {
+                    chapter: 6,
+                    text: "The spirit that never dies is called the mysterious feminine. Although she becomes the whole universe, her immaculate purity is never lost. The gateway to the mysterious female is called the root of creation."
+                },
+                {
+                    chapter: 7,
+                    text: "Heaven is eternal, the earth endures. Why do heaven and earth last forever? They do not live for themselves only. For this reason the sage puts himself last and so ends up ahead. He stays a witness to life, so he endures."
                 },
                 {
                     chapter: 8,
-                    text: "The supreme good is like water, which nourishes all things without trying to. It is content with the low places that people disdain.",
-                    translation: "In dwelling, live close to the ground. In thinking, keep to the simple. In conflict, be fair and generous."
+                    text: "The supreme good is like water, which nourishes all things without trying to. It flows to low places loathed by all men. Therefore it is like the Tao. Live in accordance with the nature of things: in dwelling be close to the land, in meditation go deep in the heart."
+                },
+                {
+                    chapter: 9,
+                    text: "To keep on filling is not as good as stopping. Overfilled, the cupped hands drip. Better to stop pouring. Retire when the work is done. This is the way of heaven."
+                },
+                {
+                    chapter: 10,
+                    text: "Can you love your people and govern your domain without self-importance? Giving birth and nourishing, having yet not possessing, working yet not taking credit. One who heeds this power brings the Tao to this very earth. This is the primal virtue."
+                },
+                {
+                    chapter: 11,
+                    text: "Thirty spokes converge upon a single hub; it is on the hole in the center that the use of the cart hinges. The usefulness of what is depends on what is not."
+                },
+                {
+                    chapter: 12,
+                    text: "The five colors blind the eye. The five tones deafen the ear. The five flavors dull the taste. The master observes the world but trusts his inner vision. He allows things to come and go."
+                },
+                {
+                    chapter: 13,
+                    text: "Favor and disgrace seem alarming. High status greatly afflicts your person. The reason we have a lot of trouble is that we have selves. If we had no selves, what trouble would we have?"
+                },
+                {
+                    chapter: 14,
+                    text: "That which cannot be seen is called invisible. That which cannot be heard is called inaudible. That which cannot be held is called intangible. These three cannot be defined; therefore they are merged as one."
+                },
+                {
+                    chapter: 15,
+                    text: "The ancient masters were profound and subtle. Their wisdom was unfathomable. There's no way to describe it; one can only describe them vaguely by their appearance. Watchful like men crossing a winter stream, alert like men aware of danger, simple as uncarved wood."
+                },
+                {
+                    chapter: 16,
+                    text: "Become totally empty. Let your heart be at peace. Amidst the rush of worldly comings and goings, observe how endings become beginnings. To return to the root is to find peace. To find peace is to fulfill one's destiny."
+                },
+                {
+                    chapter: 17,
+                    text: "With the greatest leader above them, people barely know one exists. Next comes one whom they love and praise. Next comes one whom they fear. Next comes one whom they despise and defy. When a leader trusts no one, no one trusts him. The great leader speaks little."
+                },
+                {
+                    chapter: 18,
+                    text: "When the greatness of the Tao is present, action arises from one's own heart. When the greatness of the Tao is absent, action comes from the rules of kindness and justice. If you need rules to be kind and just, if you act virtuous, this is a sure sign that virtue is absent."
+                },
+                {
+                    chapter: 19,
+                    text: "Give up sainthood, renounce wisdom, and it will be a hundred times better for everyone. Throw away morality and justice, and people will do the right thing. It is more important to see the simplicity, to realize one's true nature, to cast off selfishness and temper desire."
+                },
+                {
+                    chapter: 20,
+                    text: "Give up learning, and you will be free from all your cares. What is the difference between yes and no? What is the difference between good and evil? I alone seem foolish, no mind, no worries. I drift like a wave on the ocean, I blow as aimless as the wind."
+                },
+                {
+                    chapter: 21,
+                    text: "The greatest virtue is to follow the Tao and the Tao alone. The Tao is elusive and intangible. Throughout the ages its name has been preserved in order to recall the beginning of all things."
                 },
                 {
                     chapter: 22,
-                    text: "If you want to become whole, let yourself be partial. If you want to become straight, let yourself be crooked.",
-                    translation: "The Master, by residing in the Tao, sets an example for all beings."
+                    text: "If you want to become whole, let yourself be partial. If you want to become straight, let yourself be crooked. The Master, by residing in the Tao, sets an example for all beings."
+                },
+                {
+                    chapter: 23,
+                    text: "To talk little is natural. Fierce winds do not blow all morning; a downpour of rain does not last the day. If you conform to the Tao, its power flows through you. Your actions become those of nature, your ways those of heaven."
+                },
+                {
+                    chapter: 24,
+                    text: "If you stand on tiptoe, you cannot stand firmly. If you take long steps, you cannot walk far. Showing off does not reveal enlightenment. Boasting will not produce accomplishment."
+                },
+                {
+                    chapter: 25,
+                    text: "There was something formless and perfect before the universe was born. It is serene. Empty. Solitary. Unchanging. Infinite. Eternally present. For lack of a better name, I call it the Tao. I call it great."
+                },
+                {
+                    chapter: 26,
+                    text: "The heavy is the root of the light. The still is the master of unrest. Realizing this, the successful person is poised and centered in the midst of all activities."
+                },
+                {
+                    chapter: 27,
+                    text: "A knower of the truth travels without leaving a trace. Speaks without causing harm. Gives without keeping an account. Be wise and help all beings impartially, abandoning none. Waste no opportunities. This is called following the light."
+                },
+                {
+                    chapter: 28,
+                    text: "Know the strength of man but keep a woman's care. Be a valley under heaven. To be the pattern of the world is to move constantly in the path of virtue without straying a single step."
+                },
+                {
+                    chapter: 29,
+                    text: "Do you think you can take over the universe and improve it? I do not believe it can be done. Allow your life to unfold naturally. Know that it too is a vessel of perfection."
+                },
+                {
+                    chapter: 30,
+                    text: "Whoever would guide a leader of men in the uses of life will warn him against the use of arms for conquest. Weapons are the tools of violence; all decent men detest them."
+                },
+                {
+                    chapter: 31,
+                    text: "Weapons are the tools of fear; a decent man will avoid them except in the direst necessity. To him even a victory is no cause for rejoicing."
+                },
+                {
+                    chapter: 32,
+                    text: "The Tao is eternal and has no name. Although simple and subtle, no one in the world can master it. Just as all water flows back to become the ocean, all creation flows back to become the Tao."
                 },
                 {
                     chapter: 33,
-                    text: "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power.",
-                    translation: "If you realize that you have enough, you are truly rich."
+                    text: "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power. If you realize that you have enough, you are truly rich."
+                },
+                {
+                    chapter: 34,
+                    text: "The great way is universal; it can apply to the left or the right. All beings depend on it for life, even so it does not take possession of them. The sage imitates this conduct by not claiming greatness. The sage achieves greatness."
+                },
+                {
+                    chapter: 35,
+                    text: "Music and dining are passing pleasures, yet they cause people to stop. How bland and insipid are the things of this world when one compares them to the Tao! When you look for it there's nothing to see; when you listen for it there's nothing to hear; when you use it it cannot be exhausted."
+                },
+                {
+                    chapter: 36,
+                    text: "Should you want to contain something, you must deliberately let it expand. Should you want to weaken something, you must deliberately let it grow strong. The lesson here is called the wisdom of obscurity. The gentle outlast the strong."
+                },
+                {
+                    chapter: 37,
+                    text: "The Tao does nothing, but leaves nothing undone. If powerful men could center themselves in it, the whole world would be transformed by itself in its natural rhythms. When life is simple, pretenses fall away; our essential natures shine through."
+                },
+                {
+                    chapter: 38,
+                    text: "A truly good man is not aware of his goodness, and is therefore good. A foolish man tries to be good, and is therefore not good. The highest virtue is to act without a sense of self. The highest kindness is to give without condition."
+                },
+                {
+                    chapter: 39,
+                    text: "These things from ancient times arise from one: the sky is whole and clear; the earth is whole and firm; the spirit is whole and full. Nobility is rooted in humility; loftiness is based on lowliness."
+                },
+                {
+                    chapter: 40,
+                    text: "Returning is the motion of the Tao. Yielding is the way of the Tao. The ten thousand things are born of being. Being is born of non-being."
+                },
+                {
+                    chapter: 41,
+                    text: "So a great scholar hears of the Tao and begins diligent practice. A middling scholar hears of the Tao and retains some and loses some. The way of illumination seems dark; going forward seems like retreat; the easy way seems hard."
+                },
+                {
+                    chapter: 42,
+                    text: "The Tao gave birth to one. One gave birth to two. Two gave birth to three. All three begat the ten thousand things. The ten thousand things carry yin and embrace yang; they achieve harmony by combining these forces."
+                },
+                {
+                    chapter: 43,
+                    text: "The softest of all things overrides the hardest of all things. That without substance enters where there is no space. Hence I know the value of non-action. Teaching without words, performing without actions: few in the world can grasp it."
                 },
                 {
                     chapter: 44,
-                    text: "Fame or integrity: which is more important? Money or happiness: which is more valuable?",
-                    translation: "If you always desire more, you may lose what you have."
+                    text: "Fame or integrity: which is more important? Money or happiness: which is more valuable? If you always desire more, you may lose what you have."
+                },
+                {
+                    chapter: 45,
+                    text: "The greatest perfection seems imperfect, and yet its use is inexhaustible. The greatest fullness seems empty, and yet its use is endless. Stillness and tranquility set things in order in the universe."
+                },
+                {
+                    chapter: 46,
+                    text: "When the world has the Tao, running horses are retired to till the fields. When the world lacks the Tao, war horses are bred in the countryside. There is no greater loss than losing the Tao; no greater curse than covetousness; no greater tragedy than discontentment."
+                },
+                {
+                    chapter: 47,
+                    text: "Without going out the door, know the world. Without looking out the window, you may see the ways of heaven. True mastery can be gained by letting things go their own way. It cannot be gained by interfering."
+                },
+                {
+                    chapter: 48,
+                    text: "Learning consists of daily accumulating. The practice of the Tao consists of daily diminishing. Decreasing and decreasing until doing nothing. When nothing is done, nothing is left undone."
+                },
+                {
+                    chapter: 49,
+                    text: "The sage has no fixed mind; he is aware of the needs of others. Those who are good he treats with goodness; those who are bad he also treats with goodness. The sage lives in harmony with all below heaven. He sees everything as his own self; he loves everyone as his own child."
+                },
+                {
+                    chapter: 50,
+                    text: "Between birth and death: three in ten are followers of life; three in ten are followers of death; and men just passing from birth to death also number three in ten. But there is one of ten that is so sure of life that tigers and wild bulls keep clear."
+                },
+                {
+                    chapter: 51,
+                    text: "The Tao gives them life; virtue nourishes them. The Tao produces but does not possess; the Tao gives without expecting. This is called hidden virtue."
+                },
+                {
+                    chapter: 52,
+                    text: "All under heaven have a common beginning. This beginning is the mother of the world. Seeing the small is called clarity; keeping flexible is called strength."
+                },
+                {
+                    chapter: 53,
+                    text: "If I have even just a little sense, I should walk in the great way, and my only fear would be straying. The great way is very smooth and straight, and yet the people preferred devious paths."
+                },
+                {
+                    chapter: 54,
+                    text: "Whoever is planted in the Tao will not be rooted up. Whoever embraces the Tao will not slip away. Cultivated in the self, virtue is realized; cultivated in the family, virtue overflows."
+                },
+                {
+                    chapter: 55,
+                    text: "Who is in harmony with the Tao is like a newborn child. Deadly insects will not sting him; wild beasts will not attack him; birds of prey will not strike him. To know harmony is to know the changeless. To know the changeless is to have insight."
                 },
                 {
                     chapter: 56,
-                    text: "Those who know don't talk. Those who talk don't know.",
-                    translation: "Close your mouth, block off your senses, blunt your sharpness, untie your knots."
+                    text: "Those who know do not talk. Those who talk do not know. Block all the passages; close your mouth. This is primal union or the secret embrace. One who knows this secret is far beyond the cares of men."
+                },
+                {
+                    chapter: 57,
+                    text: "If you want to be a great leader, you must learn to follow the Tao. Stop trying to control. Let go of fixed plans and concepts, and the world will govern itself. The more laws are posted, the more thieves appear. Therefore the sage says: I take no action and people are reformed."
+                },
+                {
+                    chapter: 58,
+                    text: "Bad fortune is what good fortune leans on; good fortune is what bad fortune hides in. Thus the master is content to serve as an example and not to impose his will."
+                },
+                {
+                    chapter: 59,
+                    text: "In governing people and serving nature, nothing surpasses thrift and moderation. This is the way to be deeply rooted and firmly planted in the Tao."
+                },
+                {
+                    chapter: 60,
+                    text: "Governing a large country is like frying a small fish. You spoil it with too much poking. Approach the universe with the Tao, and evil will have no power."
+                },
+                {
+                    chapter: 61,
+                    text: "A great country is like the lowland toward which all streams flow. It is the reservoir of all under heaven, the feminine of the world. The female overcomes the male with stillness, by lowering herself through her quietness."
+                },
+                {
+                    chapter: 62,
+                    text: "The Tao is the treasure house; the true nature, the secret source of everything. It is the treasure of the good man and the refuge of the bad. Why did the ancients make so much of the principle? Is it not because it is the source of all good and the remedy for all evil?"
                 },
                 {
                     chapter: 63,
-                    text: "Act without doing; work without effort. Think of the small as large and the few as many.",
-                    translation: "The Master never reaches for the great; thus she achieves greatness."
+                    text: "Act without doing; work without effort. Think of the small as large and the few as many. The Master never reaches for the great; thus she achieves greatness."
+                },
+                {
+                    chapter: 64,
+                    text: "What is at rest is easily managed. What is not yet manifest is easy to prevent. The brittle is easily shattered; the small is easily scattered. Act before things exist; manage them before there is disorder."
+                },
+                {
+                    chapter: 65,
+                    text: "The ancient ones were simple-hearted and blended with the common people. They did not shine forth; they did not rule with cleverness. When they think that they know the answers, people are difficult to guide."
+                },
+                {
+                    chapter: 66,
+                    text: "Why is the sea king of a hundred streams? Because it lies below them. Humility gives it its power. The sage stays low so the world never tires of exalting him."
+                },
+                {
+                    chapter: 67,
+                    text: "I have three treasures which I hold fast and watch closely: the first is mercy; the second is frugality; the third is humility. For mercy comes courage; from frugality comes generosity; from humility comes leadership."
+                },
+                {
+                    chapter: 68,
+                    text: "A good soldier is not violent. A good fighter is not angry. Good winners do not contend. Good employers serve their workers. This is called employing the power of others. This since ancient times has been known as the ultimate unity with heaven."
+                },
+                {
+                    chapter: 69,
+                    text: "There is a saying among soldiers: I dare not make the first move but would rather play the guest. I dare not advance an inch but would rather withdraw a foot. When armies are evenly matched, the one with compassion wins."
+                },
+                {
+                    chapter: 70,
+                    text: "My teachings are very easy to understand and very easy to practice. Yet so few in this world understand, and so few are able to practice. The sage dresses plainly even though his interior is filled with precious gems."
+                },
+                {
+                    chapter: 71,
+                    text: "Knowing ignorance is strength. Ignoring knowledge is sickness. Only when we are sick of our sickness shall we cease to be sick. The sage is not sick but is sick of sickness; this is the secret of health."
+                },
+                {
+                    chapter: 72,
+                    text: "When people lack a sense of awe, there will be disaster. When people do not fear worldly power, a greater power will arrive. Therefore the sage knows himself but makes no show of himself; loves himself but does not exalt himself."
+                },
+                {
+                    chapter: 73,
+                    text: "Bold action against others leads to death. Bold action in harmony with the Tao leads to life. It is heaven's way to conquer without striving. It does not speak yet it is answered."
+                },
+                {
+                    chapter: 74,
+                    text: "If you realize that all things change, there is nothing you will try to hold on to. If you're not afraid of dying, there's nothing you cannot achieve. There is always a lord of death. He who takes the place of the lord of death is like one who cuts with the blade of a master carpenter."
+                },
+                {
+                    chapter: 75,
+                    text: "When taxes are too high, people go hungry. When the government is too intrusive, people lose their spirit. Act for the people's benefit. Trust them; leave them alone."
                 },
                 {
                     chapter: 76,
-                    text: "When born, humans are soft and weak; when they die, they are hard and stiff. When plants are born, they are soft and tender; when they die, they are brittle and dry.",
-                    translation: "The soft and yielding will overcome the hard and strong."
+                    text: "A man is born gentle and weak; at his death he is hard and stiff. All things, including the grass and trees, are soft and pliable in life; dry and brittle in death. The hard and stiff will be broken; the soft and supple will prevail."
+                },
+                {
+                    chapter: 77,
+                    text: "The way of heaven is like drawing a bow: the high is lowered, the low is raised. When it is surplus it reduces; when it is deficient it increases. Only the one who has the Tao offers his surplus to others."
+                },
+                {
+                    chapter: 78,
+                    text: "Nothing in the world is softer and weaker than water, but for attacking the hard, the unyielding, nothing can surpass it. The weak overcomes the strong; the soft surpasses the hard. In all the world there is no one who does not know this, but no one can master the practice."
+                },
+                {
+                    chapter: 79,
+                    text: "After a bitter quarrel, some resentment remains. What can one do about it? Being content with what you have is always best in the end. Someone must risk returning injury with kindness, or hostility will never turn to good will."
+                },
+                {
+                    chapter: 80,
+                    text: "Imagine a small country with few people. They have weapons and do not employ them. They enjoy the labor of their hands and do not waste time inventing labor-saving machines. Although they live within sight of their neighbors, they leave each other in peace while they grow old and die."
                 },
                 {
                     chapter: 81,
-                    text: "True words aren't eloquent; eloquent words aren't true. Wise men don't need to prove their point; men who need to prove their point aren't wise.",
-                    translation: "The Master has no possessions. The more he does for others, the happier he is."
+                    text: "True words are not beautiful; beautiful words are not true. Good men do not argue; those who argue are not good. The sage does not accumulate anything but gives everything to others. Having more, the more he gives."
                 }
             ];
             
@@ -279,6 +565,7 @@
                 
                 // Show quote container
                 quoteContainer.classList.remove('hidden');
+                quoteContainer.classList.add('fade-in');
                 
                 // Get a random quote (different from current one)
                 let newIndex;
@@ -291,15 +578,12 @@
                 
                 // Animate the quote appearance
                 quoteText.style.opacity = '0';
-                quoteTranslation.style.opacity = '0';
                 
                 setTimeout(() => {
                     chapterNumber.textContent = quote.chapter;
                     quoteText.textContent = quote.text;
-                    quoteTranslation.textContent = quote.translation;
                     
                     quoteText.style.opacity = '1';
-                    quoteTranslation.style.opacity = '1';
                 }, 300);
             }
             
