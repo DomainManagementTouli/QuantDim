@@ -15,6 +15,139 @@
             color: #e2e8f0;
             overflow-x: hidden;
         }
+
+        /* Navigation Menu Styles */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .nav-toggle {
+            width: 50px;
+            height: 50px;
+            background: rgba(14, 165, 233, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .nav-toggle:hover {
+            background: rgba(14, 165, 233, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #38bdf8;
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon span:nth-child(1) {
+            top: 3px;
+        }
+
+        .nav-icon span:nth-child(2) {
+            top: 10px;
+        }
+
+        .nav-icon span:nth-child(3) {
+            top: 17px;
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background: rgba(2, 0, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 15px;
+            min-width: 180px;
+            box-shadow: 0 8px 30px rgba(0, 191, 255, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #bae6fd;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0, 191, 255, 0.2);
+        }
+
+        .nav-menu a:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        .nav-menu a::before {
+            content: '▸';
+            margin-right: 10px;
+            transition: all 0.2s ease;
+            color: #38bdf8;
+        }
+
+        .nav-menu a:hover::before {
+            margin-right: 15px;
+        }
+
+        .nav-icon.active span:nth-child(1) {
+            top: 10px;
+            transform: rotate(135deg);
+        }
+
+        .nav-icon.active span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+
+        .nav-icon.active span:nth-child(3) {
+            top: 10px;
+            transform: rotate(-135deg);
+        }
         
         .rock {
             cursor: grab;
@@ -93,6 +226,21 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
+    <!-- Navigation Menu -->
+    <nav class="nav-container">
+        <div class="nav-toggle" id="navToggle">
+            <div class="nav-icon" id="navIcon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="infodist.html">InfoDist</a>
+        </div>
+    </nav>
+
     <header class="text-center mb-8">
         <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-200 mb-2">
             <span class="chinese-character">道</span> Wisdom Pool
@@ -155,6 +303,25 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Navigation menu functionality
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            const navIcon = document.getElementById('navIcon');
+
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                navIcon.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    navIcon.classList.remove('active');
+                }
+            });
+
+            // Wisdom pool functionality
             const pool = document.getElementById('pool');
             const rockPile = document.getElementById('rock-pile');
             const rocks = document.querySelectorAll('.rock');
