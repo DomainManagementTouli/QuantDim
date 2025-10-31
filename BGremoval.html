@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Removal Tool - QD Domain Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+        }
+
+        .upload-section, .result-section {
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 3px dashed #3498db;
+            border-radius: 15px;
+            padding: 40px 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .upload-area:hover {
+            border-color: #2980b9;
+            background: #e8f4fc;
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .upload-area h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .preview-container {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .button {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .button.secondary {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .loading {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-box {
+            background: #e8f4fc;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .info-box h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .download-section {
+            margin-top: 20px;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            text-align: center;
+        }
+
+        .comparison-item h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Background Removal Tool</h1>
+            <p>Remove backgrounds from your images instantly using AI</p>
+            <a href="https://domainmanagementtouli.github.io/QD/" class="back-button">← Back to Home</a>
+        </div>
+
+        <div class="content">
+            <div class="upload-section">
+                <h2>Upload Your Image</h2>
+                <div class="upload-area" id="uploadArea">
+                    <i>📁</i>
+                    <h3>Click to Upload Image</h3>
+                    <p>or drag and drop your file here</p>
+                    <p class="file-types">Supports: JPG, PNG, WebP (Max 5MB)</p>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                </div>
+
+                <div class="preview-container">
+                    <img id="originalPreview" class="preview-image" style="display: none;">
+                </div>
+
+                <div class="info-box">
+                    <h4>💡 How it works:</h4>
+                    <p>This tool uses AI to automatically detect and remove backgrounds from your images. Perfect for product photos, portraits, and creative projects.</p>
+                </div>
+
+                <button id="processBtn" class="button" disabled>Remove Background</button>
+                <button id="resetBtn" class="button secondary" disabled>Reset</button>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processing image... This may take a few seconds</p>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <h2>Result</h2>
+                <div class="preview-container">
+                    <img id="resultPreview" class="preview-image" style="display: none;">
+                </div>
+
+                <div class="comparison-container" id="comparisonContainer" style="display: none;">
+                    <div class="comparison-item">
+                        <h4>Original</h4>
+                        <img id="comparisonOriginal" class="preview-image">
+                    </div>
+                    <div class="comparison-item">
+                        <h4>Background Removed</h4>
+                        <img id="comparisonResult" class="preview-image">
+                    </div>
+                </div>
+
+                <div class="download-section" id="downloadSection" style="display: none;">
+                    <button id="downloadBtn" class="button">Download Result</button>
+                    <p>Right-click the image and "Save as" for best quality</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class BackgroundRemover {
+            constructor() {
+                this.model = null;
+                this.isInitialized = false;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    // Load TensorFlow.js and BodyPix
+                    await this.loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0');
+                    await this.loadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.0');
+                    
+                    console.log('Loading BodyPix model...');
+                    this.model = await bodyPix.load({
+                        architecture: 'MobileNetV1',
+                        outputStride: 16,
+                        multiplier: 0.75,
+                        quantBytes: 2
+                    });
+                    this.isInitialized = true;
+                    console.log('BodyPix model loaded successfully');
+                } catch (error) {
+                    console.error('Error loading model:', error);
+                    alert('Error loading AI model. Please refresh the page and try again.');
+                }
+            }
+
+            loadScript(src) {
+                return new Promise((resolve, reject) => {
+                    if (document.querySelector(`script[src="${src}"]`)) {
+                        resolve();
+                        return;
+                    }
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            }
+
+            async removeBackground(imageElement) {
+                if (!this.isInitialized) {
+                    throw new Error('Model not initialized');
+                }
+
+                const segmentation = await this.model.segmentPerson(imageElement, {
+                    flipHorizontal: false,
+                    internalResolution: 'medium',
+                    segmentationThreshold: 0.7
+                });
+
+                return this.applyMask(imageElement, segmentation);
+            }
+
+            applyMask(image, segmentation) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                // Draw original image
+                ctx.drawImage(image, 0, 0);
+
+                // Get image data
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                const segmentationData = segmentation.data;
+
+                // Apply mask - set alpha to 0 for background pixels
+                for (let i = 0; i < segmentationData.length; i++) {
+                    if (segmentationData[i] === 0) { // Background
+                        data[i * 4 + 3] = 0; // Set alpha to 0
+                    }
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+                return canvas;
+            }
+        }
+
+        class App {
+            constructor() {
+                this.remover = new BackgroundRemover();
+                this.originalImage = null;
+                this.processedImage = null;
+                
+                this.initializeElements();
+                this.attachEventListeners();
+            }
+
+            initializeElements() {
+                this.uploadArea = document.getElementById('uploadArea');
+                this.fileInput = document.getElementById('fileInput');
+                this.originalPreview = document.getElementById('originalPreview');
+                this.resultPreview = document.getElementById('resultPreview');
+                this.processBtn = document.getElementById('processBtn');
+                this.resetBtn = document.getElementById('resetBtn');
+                this.loading = document.getElementById('loading');
+                this.downloadSection = document.getElementById('downloadSection');
+                this.downloadBtn = document.getElementById('downloadBtn');
+                this.comparisonContainer = document.getElementById('comparisonContainer');
+                this.comparisonOriginal = document.getElementById('comparisonOriginal');
+                this.comparisonResult = document.getElementById('comparisonResult');
+            }
+
+            attachEventListeners() {
+                this.uploadArea.addEventListener('click', () => this.fileInput.click());
+                this.uploadArea.addEventListener('dragover', (e) => this.handleDragOver(e));
+                this.uploadArea.addEventListener('drop', (e) => this.handleDrop(e));
+                
+                this.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+                this.processBtn.addEventListener('click', () => this.processImage());
+                this.resetBtn.addEventListener('click', () => this.reset());
+                this.downloadBtn.addEventListener('click', () => this.downloadImage());
+            }
+
+            handleDragOver(e) {
+                e.preventDefault();
+                this.uploadArea.style.borderColor = '#27ae60';
+                this.uploadArea.style.background = '#d5f4e6';
+            }
+
+            handleDrop(e) {
+                e.preventDefault();
+                this.uploadArea.style.borderColor = '#3498db';
+                this.uploadArea.style.background = '#f8f9fa';
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    this.loadImage(files[0]);
+                }
+            }
+
+            handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    this.loadImage(file);
+                }
+            }
+
+            loadImage(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (JPG, PNG, WebP)');
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Please select an image smaller than 5MB');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.originalImage = new Image();
+                    this.originalImage.onload = () => {
+                        this.originalPreview.src = e.target.result;
+                        this.originalPreview.style.display = 'block';
+                        this.processBtn.disabled = false;
+                        this.resetBtn.disabled = false;
+                    };
+                    this.originalImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            async processImage() {
+                if (!this.originalImage) return;
+
+                this.processBtn.disabled = true;
+                this.loading.style.display = 'block';
+
+                try {
+                    const resultCanvas = await this.remover.removeBackground(this.originalImage);
+                    this.processedImage = resultCanvas;
+                    
+                    this.resultPreview.src = resultCanvas.toDataURL('image/png');
+                    this.resultPreview.style.display = 'block';
+                    
+                    // Update comparison view
+                    this.comparisonOriginal.src = this.originalPreview.src;
+                    this.comparisonResult.src = resultCanvas.toDataURL('image/png');
+                    this.comparisonContainer.style.display = 'grid';
+                    
+                    this.downloadSection.style.display = 'block';
+                    
+                } catch (error) {
+                    console.error('Error processing image:', error);
+                    alert('Error processing image. Please try again with a different image.');
+                } finally {
+                    this.loading.style.display = 'none';
+                    this.processBtn.disabled = false;
+                }
+            }
+
+            downloadImage() {
+                if (!this.processedImage) return;
+
+                const link = document.createElement('a');
+                link.download = 'background-removed.png';
+                link.href = this.processedImage.toDataURL('image/png');
+                link.click();
+            }
+
+            reset() {
+                this.fileInput.value = '';
+                this.originalPreview.style.display = 'none';
+                this.resultPreview.style.display = 'none';
+                this.comparisonContainer.style.display = 'none';
+                this.downloadSection.style.display = 'none';
+                this.loading.style.display = 'none';
+                this.processBtn.disabled = true;
+                this.resetBtn.disabled = true;
+                this.originalImage = null;
+                this.processedImage = null;
+            }
+        }
+
+        // Initialize the app when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new App();
+        });
+    </script>
+</body>
+</html>
