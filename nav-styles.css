@@ -1,132 +1,112 @@
-/* Namespaced Navigation Menu Styles */
-.ttc-nav-container {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
+// Centralized Navigation Component - Tailwind Compatible
+function loadNavigation() {
+    // Inject the HTML with Tailwind-compatible classes
+    const navHTML = `
+    <nav class="ttc-nav-container" style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <div class="ttc-nav-toggle" id="navToggle" style="width: 50px; height: 50px; background: rgba(14, 165, 233, 0.15); backdrop-filter: blur(10px); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3); transition: all 0.3s ease; border: 2px solid rgba(56, 189, 248, 0.3);">
+            <div class="ttc-nav-icon" id="navIcon" style="width: 24px; height: 24px; position: relative; transition: all 0.3s ease;">
+                <span style="display: block; position: absolute; height: 3px; width: 100%; background: #38bdf8; border-radius: 3px; opacity: 1; left: 0; transform: rotate(0deg); transition: all 0.3s ease; top: 3px;"></span>
+                <span style="display: block; position: absolute; height: 3px; width: 100%; background: #38bdf8; border-radius: 3px; opacity: 1; left: 0; transform: rotate(0deg); transition: all 0.3s ease; top: 10px;"></span>
+                <span style="display: block; position: absolute; height: 3px; width: 100%; background: #38bdf8; border-radius: 3px; opacity: 1; left: 0; transform: rotate(0deg); transition: all 0.3s ease; top: 17px;"></span>
+            </div>
+        </div>
+        <div class="ttc-nav-menu" id="navMenu" style="position: absolute; top: 60px; left: 0; background: rgba(2, 0, 36, 0.95); backdrop-filter: blur(10px); border-radius: 12px; padding: 15px; min-width: 180px; box-shadow: 0 8px 30px rgba(0, 191, 255, 0.3); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; border: 2px solid rgba(56, 189, 248, 0.3);">
+            <a href="index.html" style="display: flex; align-items: center; padding: 12px 15px; color: #bae6fd; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95rem;">Home</a>
+            <a href="https://blossomstechservice.github.io/blossomstechservice/index.html" style="display: flex; align-items: center; padding: 12px 15px; color: #bae6fd; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95rem;">BlossomTechService</a>
+            <a href="embodiedcognition.html" style="display: flex; align-items: center; padding: 12px 15px; color: #bae6fd; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95rem;">Exploration of Embodied Cognition</a>
+            <a href="mpt.html" style="display: flex; align-items: center; padding: 12px 15px; color: #bae6fd; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95rem;">Microplastics Analysis</a>
+            <a href="hben.html" style="display: flex; align-items: center; padding: 12px 15px; color: #bae6fd; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95rem;">MODALITY TESTING [HBEN Analyzer]</a>
+            <a href="BGremoval.html" style="display: flex; align-items: center; padding: 12px 15px; color: #bae6fd; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95rem;">MODALITY TESTING [BG Removal]</a>
+        </div>
+    </nav>
+    `;
+    
+    document.body.insertAdjacentHTML('afterbegin', navHTML);
+
+    // Add hover effects and functionality via JavaScript
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    const navIcon = document.getElementById('navIcon');
+    const menuLinks = document.querySelectorAll('.ttc-nav-menu a');
+
+    // Add hover effects to links
+    menuLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.background = 'rgba(56, 189, 248, 0.2)';
+            this.style.color = '#38bdf8';
+            this.style.transform = 'translateX(5px)';
+            this.style.boxShadow = '0 2px 10px rgba(0, 191, 255, 0.2)';
+            
+            // Add arrow effect
+            const beforeStyle = this.currentStyle || window.getComputedStyle(this, '::before');
+            this.style.setProperty('--before-margin', '15px');
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.background = '';
+            this.style.color = '#bae6fd';
+            this.style.transform = '';
+            this.style.boxShadow = '';
+            this.style.setProperty('--before-margin', '10px');
+        });
+    });
+
+    // Toggle functionality
+    navToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isActive = navMenu.style.opacity === '1';
+        
+        if (isActive) {
+            navMenu.style.opacity = '0';
+            navMenu.style.visibility = 'hidden';
+            navMenu.style.transform = 'translateY(-10px)';
+            // Reset icon spans
+            const spans = navIcon.querySelectorAll('span');
+            spans[0].style.transform = 'rotate(0deg)';
+            spans[0].style.top = '3px';
+            spans[1].style.opacity = '1';
+            spans[1].style.left = '0';
+            spans[2].style.transform = 'rotate(0deg)';
+            spans[2].style.top = '17px';
+        } else {
+            navMenu.style.opacity = '1';
+            navMenu.style.visibility = 'visible';
+            navMenu.style.transform = 'translateY(0)';
+            // Animate icon to X
+            const spans = navIcon.querySelectorAll('span');
+            spans[0].style.transform = 'rotate(135deg)';
+            spans[0].style.top = '10px';
+            spans[1].style.opacity = '0';
+            spans[1].style.left = '-60px';
+            spans[2].style.transform = 'rotate(-135deg)';
+            spans[2].style.top = '10px';
+        }
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function() {
+        navMenu.style.opacity = '0';
+        navMenu.style.visibility = 'hidden';
+        navMenu.style.transform = 'translateY(-10px)';
+        // Reset icon
+        const spans = navIcon.querySelectorAll('span');
+        spans[0].style.transform = 'rotate(0deg)';
+        spans[0].style.top = '3px';
+        spans[1].style.opacity = '1';
+        spans[1].style.left = '0';
+        spans[2].style.transform = 'rotate(0deg)';
+        spans[2].style.top = '17px';
+    });
+
+    // Prevent menu close when clicking inside menu
+    navMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
 }
 
-.ttc-nav-toggle {
-    width: 50px;
-    height: 50px;
-    background: rgba(14, 165, 233, 0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
-    transition: all 0.3s ease;
-    border: 2px solid rgba(56, 189, 248, 0.3);
-}
-
-.ttc-nav-toggle:hover {
-    background: rgba(14, 165, 233, 0.25);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
-}
-
-.ttc-nav-icon {
-    width: 24px;
-    height: 24px;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.ttc-nav-icon span {
-    display: block;
-    position: absolute;
-    height: 3px;
-    width: 100%;
-    background: #38bdf8;
-    border-radius: 3px;
-    opacity: 1;
-    left: 0;
-    transform: rotate(0deg);
-    transition: all 0.3s ease;
-}
-
-.ttc-nav-icon span:nth-child(1) {
-    top: 3px;
-}
-
-.ttc-nav-icon span:nth-child(2) {
-    top: 10px;
-}
-
-.ttc-nav-icon span:nth-child(3) {
-    top: 17px;
-}
-
-.ttc-nav-menu {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    background: rgba(2, 0, 36, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 15px;
-    min-width: 180px;
-    box-shadow: 0 8px 30px rgba(0, 191, 255, 0.3);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    border: 2px solid rgba(56, 189, 248, 0.3);
-}
-
-.ttc-nav-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.ttc-nav-menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    color: #bae6fd;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-.ttc-nav-menu a:hover {
-    background: rgba(56, 189, 248, 0.2);
-    color: #38bdf8;
-    transform: translateX(5px);
-    box-shadow: 0 2px 10px rgba(0, 191, 255, 0.2);
-}
-
-.ttc-nav-menu a:not(:last-child) {
-    margin-bottom: 5px;
-}
-
-.ttc-nav-menu a::before {
-    content: '▸';
-    margin-right: 10px;
-    transition: all 0.2s ease;
-    color: #38bdf8;
-}
-
-.ttc-nav-menu a:hover::before {
-    margin-right: 15px;
-}
-
-.ttc-nav-icon.active span:nth-child(1) {
-    top: 10px;
-    transform: rotate(135deg);
-}
-
-.ttc-nav-icon.active span:nth-child(2) {
-    opacity: 0;
-    left: -60px;
-}
-
-.ttc-nav-icon.active span:nth-child(3) {
-    top: 10px;
-    transform: rotate(-135deg);
+// Load navigation
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadNavigation);
+} else {
+    loadNavigation();
 }
