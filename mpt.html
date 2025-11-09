@@ -1,200 +1,306 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <link rel="icon" type="image/png" href="QDShell.png">
+    <link rel="icon" type="image/png" href="QDShell.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</title>
-      
-<style>
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
-:root {
---primary-color: #2c3e50;
---secondary-color: #34495e;
---accent-color: #3498db;
---text-color: #333;
---background: #f8f9fa;
---card-background: #ffffff;
---border-color: #e0e0e0;
-}
-body {
-font-family: 'Georgia', 'Times New Roman', serif;
-line-height: 1.8;
-color: var(--text-color);
-background: var(--background);
-padding: 0;
-margin: 0;
-}
-.container {
-max-width: 900px;
-margin: 0 auto;
-padding: 60px 40px;
-background: var(--card-background);
-box-shadow: 0 0 40px rgba(0,0,0,0.08);
-}
-header {
-text-align: center;
-margin-bottom: 60px;
-padding-bottom: 40px;
-border-bottom: 3px solid var(--accent-color);
-}
-h1 {
-font-size: 2.8em;
-color: var(--primary-color);
-font-weight: 700;
-margin-bottom: 20px;
-line-height: 1.2;
-}
-.subtitle {
-font-size: 1.3em;
-color: var(--secondary-color);
-font-style: italic;
-margin-top: 15px;
-}
-.author-info {
-margin-top: 30px;
-font-size: 1.1em;
-color: var(--secondary-color);
-}
-h2 {
-font-size: 2.2em;
-color: var(--primary-color);
-margin-top: 70px;
-margin-bottom: 30px;
-padding-bottom: 15px;
-border-bottom: 2px solid var(--border-color);
-font-weight: 600;
-}
-h3 {
-font-size: 1.7em;
-color: var(--secondary-color);
-margin-top: 50px;
-margin-bottom: 25px;
-font-weight: 600;
-}
-h4 {
-font-size: 1.4em;
-color: var(--secondary-color);
-margin-top: 35px;
-margin-bottom: 20px;
-font-weight: 600;
-}
-p {
-margin-bottom: 25px;
-font-size: 1.1em;
-text-align: justify;
-text-indent: 2em;
-}
-p:first-of-type {
-text-indent: 0;
-}
-.section-intro {
-font-size: 1.15em;
-color: var(--secondary-color);
-font-style: italic;
-text-indent: 0;
-margin-bottom: 35px;
-}
-.key-concept {
-background: linear-gradient(to right, #e8f4f8, #f8f9fa);
-padding: 30px;
-margin: 40px 0;
-border-left: 5px solid var(--accent-color);
-border-radius: 0 8px 8px 0;
-}
-.key-concept p {
-text-indent: 0;
-margin-bottom: 15px;
-}
-.key-concept p:last-child {
-margin-bottom: 0;
-}
-.emphasis {
-font-weight: 600;
-color: var(--primary-color);
-}
-.technical-term {
-font-style: italic;
-color: var(--accent-color);
-}
-blockquote {
-margin: 40px 0;
-padding: 25px 40px;
-background: #f5f5f5;
-border-left: 5px solid var(--secondary-color);
-font-style: italic;
-color: var(--secondary-color);
-}
-blockquote p {
-text-indent: 0;
-}
-.figure-caption {
-text-align: center;
-font-style: italic;
-color: var(--secondary-color);
-margin: 20px 0 40px 0;
-font-size: 1em;
-}
-footer {
-margin-top: 80px;
-padding-top: 40px;
-border-top: 2px solid var(--border-color);
-text-align: center;
-color: var(--secondary-color);
-font-size: 0.95em;
-}
-.toc {
-background: #f8f9fa;
-padding: 30px;
-margin: 50px 0;
-border-radius: 8px;
-border: 1px solid var(--border-color);
-}
-.toc h3 {
-margin-top: 0;
-text-align: center;
-color: var(--primary-color);
-}
-.toc-section {
-margin: 20px 0;
-padding-left: 20px;
-}
-.toc-item {
-margin: 12px 0;
-font-size: 1.05em;
-}
-.toc-subsection {
-margin-left: 25px;
-margin-top: 8px;
-font-size: 0.95em;
-color: var(--secondary-color);
-}
-@media (max-width: 768px) {
-.container {
-padding: 30px 20px;
-}
-h1 {
-font-size: 2em;
-}
-h2 {
-font-size: 1.7em;
-}
-h3 {
-font-size: 1.4em;
-}
-p {
-font-size: 1em;
-}
-}
-</style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --background: #f8f9fa;
+            --card-background: #ffffff;
+            --border-color: #e0e0e0;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background: var(--background);
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 700px; /* Reduced from 900px for better readability */
+            width: 100%;
+            margin: 0 auto;
+            padding: 60px 30px;
+            background: var(--card-background);
+            box-shadow: 0 0 40px rgba(0,0,0,0.08);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            color: var(--secondary-color);
+            font-style: italic;
+            margin-top: 15px;
+        }
+        
+        .author-info {
+            margin-top: 30px;
+            font-size: 1.1em;
+            color: var(--secondary-color);
+        }
+        
+        h2 {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-top: 70px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+        
+        h3 {
+            font-size: 1.7em;
+            color: var(--secondary-color);
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        h4 {
+            font-size: 1.4em;
+            color: var(--secondary-color);
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            text-align: justify;
+            text-indent: 2em;
+        }
+        
+        p:first-of-type {
+            text-indent: 0;
+        }
+        
+        .section-intro {
+            font-size: 1.15em;
+            color: var(--secondary-color);
+            font-style: italic;
+            text-indent: 0;
+            margin-bottom: 35px;
+        }
+        
+        .key-concept {
+            background: linear-gradient(to right, #e8f4f8, #f8f9fa);
+            padding: 30px;
+            margin: 40px 0;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .key-concept p {
+            text-indent: 0;
+            margin-bottom: 15px;
+        }
+        
+        .key-concept p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .emphasis {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .technical-term {
+            font-style: italic;
+            color: var(--accent-color);
+        }
+        
+        blockquote {
+            margin: 40px 0;
+            padding: 25px 40px;
+            background: #f5f5f5;
+            border-left: 5px solid var(--secondary-color);
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+        
+        blockquote p {
+            text-indent: 0;
+        }
+        
+        .figure-caption {
+            text-align: center;
+            font-style: italic;
+            color: var(--secondary-color);
+            margin: 20px 0 40px 0;
+            font-size: 1em;
+        }
+        
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 2px solid var(--border-color);
+            text-align: center;
+            color: var(--secondary-color);
+            font-size: 0.95em;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            padding: 30px;
+            margin: 50px 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .toc-section {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .toc-item {
+            margin: 12px 0;
+            font-size: 1.05em;
+        }
+        
+        .toc-subsection {
+            margin-left: 25px;
+            margin-top: 8px;
+            font-size: 0.95em;
+            color: var(--secondary-color);
+        }
+        
+        /* Navigation Menu Styles */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            z-index: 1000;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .nav-icon {
+            display: flex;
+            flex-direction: column;
+            width: 30px;
+            height: 30px;
+            justify-content: space-between;
+        }
+        
+        .nav-icon span {
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 2px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Adjust container to account for fixed nav */
+        body {
+            padding-top: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                max-width: 95%;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.7em;
+            }
+            
+            h3 {
+                font-size: 1.4em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                display: none;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Menu -->
@@ -216,43 +322,44 @@ font-size: 1em;
         </div>
     </nav>
 
-
-<div class="container">
-<header>
-<h1>Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</h1>
-<p class="subtitle">Novel Considerations in Absorption, Distribution, Metabolism, and
-Excretion with Advanced Toxicological Implications for Human Health</p>
-<div class="author-info">
-A Technical Discourse on Emerging Contaminants<br>
-Contemporary Toxicology Series
-</div>
-</header>
-<div class="toc">
-<h3>Contents</h3>
-<div class="toc-section">
-<div class="toc-item">I. Introduction and Scope</div>
-<div class="toc-item">II. Fundamental Pharmacokinetics of Microplastic
-Particles</div>
-<div class="toc-subsection">Absorption Mechanisms Across Biological Barriers</div>
-<div class="toc-subsection">Distribution Patterns in Biological Systems</div>
-<div class="toc-subsection">Metabolic Considerations and Biotransformation</div>
-<div class="toc-subsection">Excretion Pathways and Kinetics</div>
-<div class="toc-item">III. Advanced Toxicological Mechanisms</div>
-<div class="toc-subsection">Cellular and Subcellular Interactions</div>
-<div class="toc-subsection">Immunological Consequences</div>
-<div class="toc-subsection">Endocrine Disruption Mechanisms</div>
-<div class="toc-subsection">Neurotoxicological Pathways</div>
-<div class="toc-item">IV. Chemical Complexity and Additive Considerations</div>
-<div class="toc-item">V. Organ-Specific Toxicokinetics</div>
-<div class="toc-item">VI. Developmental and Transgenerational Effects</div>
-<div class="toc-item">VII. Innovative Forecasts and Future Implications</div>
-<div class="toc-item">VIII. Conclusion and Research Imperatives</div>
-</div>
-</div>
-<h2>I. Introduction and Scope</h2>
-<p class="section-intro">The ubiquitous presence of microplastic particles in the global
-environment represents one of the most profound and rapidly emerging toxicological challenges
-of the anthropocene epoch. These synthetic polymer fragments, defined operationally as
+    <div class="container">
+        <header>
+            <h1>Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</h1>
+            <p class="subtitle">Novel Considerations in Absorption, Distribution, Metabolism, and
+            Excretion with Advanced Toxicological Implications for Human Health</p>
+            <div class="author-info">
+                A Technical Discourse on Emerging Contaminants<br>
+                Contemporary Toxicology Series
+            </div>
+        </header>
+        
+        <div class="toc">
+            <h3>Contents</h3>
+            <div class="toc-section">
+                <div class="toc-item">I. Introduction and Scope</div>
+                <div class="toc-item">II. Fundamental Pharmacokinetics of Microplastic
+                Particles</div>
+                <div class="toc-subsection">Absorption Mechanisms Across Biological Barriers</div>
+                <div class="toc-subsection">Distribution Patterns in Biological Systems</div>
+                <div class="toc-subsection">Metabolic Considerations and Biotransformation</div>
+                <div class="toc-subsection">Excretion Pathways and Kinetics</div>
+                <div class="toc-item">III. Advanced Toxicological Mechanisms</div>
+                <div class="toc-subsection">Cellular and Subcellular Interactions</div>
+                <div class="toc-subsection">Immunological Consequences</div>
+                <div class="toc-subsection">Endocrine Disruption Mechanisms</div>
+                <div class="toc-subsection">Neurotoxicological Pathways</div>
+                <div class="toc-item">IV. Chemical Complexity and Additive Considerations</div>
+                <div class="toc-item">V. Organ-Specific Toxicokinetics</div>
+                <div class="toc-item">VI. Developmental and Transgenerational Effects</div>
+                <div class="toc-item">VII. Innovative Forecasts and Future Implications</div>
+                <div class="toc-item">VIII. Conclusion and Research Imperatives</div>
+            </div>
+        </div>
+        
+        <h2>I. Introduction and Scope</h2>
+        <p class="section-intro">The ubiquitous presence of microplastic particles in the global
+        environment represents one of the most profound and rapidly emerging toxicological challenges
+        of the anthropocene epoch. These synthetic polymer fragments, defined operationally as 
 particles smaller than five millimeters in their largest dimension, have infiltrated every examined
 ecosystem on Earth, from the deepest oceanic trenches to the highest mountain peaks, and
 critically, into the tissues and fluids of virtually all examined organisms including humans.</p>
@@ -1517,4 +1624,19 @@ creating a "rosette" pattern around the fiber. The parallel to asbestos fiber pa
 and concerning—asbestos fibers cause progressive fibrosis and cancer precisely through these
 mechanisms of frustrated phagocytosis and chronic inflammation. While plastic fibers may be
 less biopersistent than asbestos given the possibility of slow degradation, they may still persist
-in lung tissue for years to decades, creating sustained
+in lung tissue for years to decades, creating sustained</p>
+        
+        <footer>
+            <p>© 2025 QuantDim | All Rights Reserved</p>
+            <p>This document represents a technical analysis and should not be construed as medical advice.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile navigation toggle
+        document.getElementById('navToggle').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
