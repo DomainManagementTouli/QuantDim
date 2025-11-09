@@ -1,9 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="icon" type="image/png" href="QDShell.png">
-    <link rel="stylesheet" href="nav-styles.css"> <!-- This has the ttc- styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +37,7 @@
         }
         
         .container {
-            max-width: 500px; /* Reduced from 900px for better readability */
+            max-width: 500px;
             width: 100%;
             margin: 0 auto;
             padding: 60px 30px;
@@ -207,7 +205,141 @@
             font-size: 0.95em;
             color: var(--secondary-color);
         }
-  @media (max-width: 768px) {
+
+        /* Navigation Menu Styles */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .nav-toggle {
+            width: 50px;
+            height: 50px;
+            background: rgba(14, 165, 233, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .nav-toggle:hover {
+            background: rgba(14, 165, 233, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #38bdf8;
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon span:nth-child(1) {
+            top: 3px;
+        }
+
+        .nav-icon span:nth-child(2) {
+            top: 10px;
+        }
+
+        .nav-icon span:nth-child(3) {
+            top: 17px;
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background: rgba(2, 0, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 15px;
+            min-width: 180px;
+            box-shadow: 0 8px 30px rgba(0, 191, 255, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #bae6fd;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0, 191, 255, 0.2);
+        }
+
+        .nav-menu a:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        .nav-menu a::before {
+            content: '▸';
+            margin-right: 10px;
+            transition: all 0.2s ease;
+            color: #38bdf8;
+        }
+
+        .nav-menu a:hover::before {
+            margin-right: 15px;
+        }
+
+        .nav-icon.active span:nth-child(1) {
+            top: 10px;
+            transform: rotate(135deg);
+        }
+
+        .nav-icon.active span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+
+        .nav-icon.active span:nth-child(3) {
+            top: 10px;
+            transform: rotate(-135deg);
+        }
+
+        @media (max-width: 768px) {
             .container {
                 padding: 30px 20px;
                 max-width: 95%;
@@ -216,24 +348,69 @@
     </style>
 </head>
 <body>
-<nav class="ttc-nav-container">
-    <div class="ttc-nav-toggle" id="navToggle">
-        <div class="ttc-nav-icon" id="navIcon">
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- Navigation Menu -->
+    <nav class="nav-container">
+        <div class="nav-toggle" id="navToggle">
+            <div class="nav-icon" id="navIcon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-    </div>
-    <div class="ttc-nav-menu" id="navMenu">
-        <a href="index.html">Home</a>
-        <a href="https://blossomstechservice.github.io/blossomstechservice/index.html">BlossomTechService</a>
-        <a href="embodiedcognition.html">Exploration of Embodied Cognition & Human Application</a>
-        <a href="mpt.html">Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</a>
-        <a href="hben.html">MODALITY TESTING [HBEN Analyzer]</a>
-        <a href="BGremoval.html">MODALITY TESTING [BG Removal]</a>
-    </div>
-</nav>
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="https://blossomstechservice.github.io/blossomstechservice/index.html">BlossomTechService</a>
+            <a href="embodiedcognition.html">Exploration of Embodied Cognition & Human Application</a>
+            <a href="mpt.html">Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</a>
+            <a href="hben.html">MODALITY TESTING [HBEN Analyzer]</a>
+            <a href="BGremoval.html">MODALITY TESTING [BG Removal]</a>
+        </div>
+    </nav>
+
     <div class="container">
+        <!-- Your existing content remains exactly the same -->
+        <header>
+            <h1>Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</h1>
+            <p class="subtitle">Novel Considerations in Absorption, Distribution, Metabolism, and
+            Excretion with Advanced Toxicological Implications for Human Health</p>
+            <div class="author-info">
+                A Technical Discourse on Emerging Contaminants<br>
+                Contemporary Toxicology Series
+            </div>
+        </header>
+        
+        <!-- ALL YOUR EXISTING CONTENT HERE -->
+        <!-- [Your entire article content remains unchanged] -->
+        
+        <footer>
+            <p>© 2025 QuantDim | All Rights Reserved</p>
+            <p>This document represents a technical analysis and should not be construed as medical advice.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Complete navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            const navIcon = document.getElementById('navIcon');
+
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                navIcon.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    navIcon.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
         <header>
             <h1>Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</h1>
             <p class="subtitle">Novel Considerations in Absorption, Distribution, Metabolism, and
@@ -1536,17 +1713,31 @@ and concerning—asbestos fibers cause progressive fibrosis and cancer precisely
 mechanisms of frustrated phagocytosis and chronic inflammation. While plastic fibers may be
 less biopersistent than asbestos given the possibility of slow degradation, they may still persist
 in lung tissue for years to decades, creating sustained</p>
-        
-        <footer>
+<footer>
             <p>© 2025 QuantDim | All Rights Reserved</p>
             <p>This document represents a technical analysis and should not be construed as medical advice.</p>
         </footer>
     </div>
 
     <script>
-        // Mobile navigation toggle
-        document.getElementById('navToggle').addEventListener('click', function() {
-            document.getElementById('navMenu').classList.toggle('active');
+        // Complete navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            const navIcon = document.getElementById('navIcon');
+
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                navIcon.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    navIcon.classList.remove('active');
+                }
+            });
         });
     </script>
 </body>
