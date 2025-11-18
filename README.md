@@ -1,3 +1,12 @@
+<div align="center">
+  <img src="fQD.png" alt="QDLogo with Subname" width="300">
+  
+  *A digital laboratory for computational exploration...*
+</div>
+
+
+
+
 # QuantDim 🌌
 
 *An innovative platform for computational exploration and repairing over-reliance on empirical models at the intersection of data, models, and human understanding*
