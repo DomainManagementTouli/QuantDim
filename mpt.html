@@ -1556,5 +1556,26 @@ in lung tissue for years to decades, creating sustained</p>
 <footer>
             <p>© 2025 QuantDim | All Rights Reserved</p>
             <p>This document represents a technical analysis and should not be construed as medical advice.</p>
+    <script>
+        // Complete navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            const navIcon = document.getElementById('navIcon');
+
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                navIcon.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    navIcon.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
