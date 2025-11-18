@@ -1,0 +1,52 @@
+:root{
+  --accent: #38bdf8;
+  --accent-2: #3498db;
+  --nav-bg: rgba(2,0,36,0.95);
+  --nav-text: #bae6fd;
+  --glass-border: rgba(56,189,248,0.3);
+  --page-max: 1200px;
+}
+
+/* Reset / base */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.5;color:#222;background:#fff}
+
+/* Layout utilities */
+.container{max-width:var(--page-max);margin:0 auto;padding:20px}
+
+/* Reusable card / button */
+.card{background:#fff;border-radius:10px;padding:1.25rem;box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+.button{display:inline-block;padding:.6rem 1.2rem;border-radius:999px;background:linear-gradient(135deg,var(--accent-2),#2980b9);color:#fff;text-decoration:none;font-weight:600;cursor:pointer}
+.button.secondary{background:linear-gradient(135deg,#27ae60,#219a52)}
+
+/* Navigation — centralized */
+.nav-container{position:fixed;top:20px;left:20px;z-index:1000}
+.nav-toggle{width:50px;height:50px;background:rgba(14,165,233,0.15);backdrop-filter:blur(6px);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--glass-border);box-shadow:0 4px 15px rgba(0,191,255,0.18)}
+.nav-icon{width:24px;height:24px;position:relative;display:block}
+.nav-icon span{position:absolute;height:3px;width:100%;background:var(--accent);border-radius:3px;left:0;transition:all .25s ease}
+.nav-icon span:nth-child(1){top:3px}
+.nav-icon span:nth-child(2){top:10px}
+.nav-icon span:nth-child(3){top:17px}
+
+/* Menu panel */
+.nav-menu{position:absolute;top:60px;left:0;min-width:180px;padding:12px;border-radius:12px;background:var(--nav-bg);backdrop-filter: blur(6px);box-shadow:0 8px 30px rgba(0,191,255,0.15);opacity:0;visibility:hidden;transform:translateY(-10px);transition:all .2s ease;border:2px solid var(--glass-border)}
+.nav-menu.active{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-menu a{display:flex;align-items:center;padding:10px 12px;color:var(--nav-text);text-decoration:none;border-radius:8px;font-weight:500;transition:all .18s ease}
+.nav-menu a:not(:last-child){margin-bottom:6px}
+.nav-menu a::before{content:'▸';margin-right:10px;color:var(--accent);}
+.nav-menu a:hover{background:rgba(56,189,248,0.12);color:var(--accent);transform:translateX(4px)}
+
+/* Animated icon X state */
+.nav-icon.active span:nth-child(1){top:10px;transform:rotate(135deg)}
+.nav-icon.active span:nth-child(2){opacity:0;left:-60px}
+.nav-icon.active span:nth-child(3){top:10px;transform:rotate(-135deg)}
+
+/* small helpers */
+.hidden{display:none}
+
+/* responsive */
+@media (max-width:480px){
+  .nav-container{top:12px;left:12px}
+  .nav-toggle{width:44px;height:44px}
+}

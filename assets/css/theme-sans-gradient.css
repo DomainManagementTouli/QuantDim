@@ -1,0 +1,17 @@
+/* Theme for app / gradient pages (sans + gradient) */
+body.theme-sans{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  min-height:100vh;
+  color:#fff;
+  padding:20px;
+}
+
+.theme-sans .container{max-width:1200px;margin:0 auto;background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.1)}
+.theme-sans .header{background:linear-gradient(135deg,#2c3e50 0%,#3498db 100%);color:#fff;padding:30px;text-align:center}
+.theme-sans .header h1{font-size:2.25rem;margin-bottom:8px}
+.theme-sans .content{padding:40px}
+.theme-sans .option-card{background:#f8f9fa;border-radius:15px;padding:30px;text-align:center;border:2px solid #e9ecef;transition:all .25s}
+.theme-sans .option-card:hover{transform:translateY(-5px);border-color:#3498db;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
+.theme-sans .button{margin:8px}
+.theme-sans .comparison{background:#f8f9fa;padding:30px;border-radius:15px;margin-top:30px;color:#222}

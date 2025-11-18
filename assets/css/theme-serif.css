@@ -1,0 +1,20 @@
+/* Theme for article pages (serif) */
+body.theme-serif{
+  font-family: Georgia, 'Times New Roman', serif;
+  background-color:#f9f7f4;
+  color:#333;
+  padding:20px;
+}
+
+.theme-serif .container{background:#fff;padding:40px;border-radius:4px;box-shadow:0 6px 25px rgba(0,0,0,0.05);max-width:800px}
+.theme-serif h1{font-size:2.4rem;color:#2c3e50;text-align:center;margin-bottom:1rem;line-height:1.25}
+.theme-serif h2{font-size:1.6rem;color:#34495e;text-align:center;font-style:italic;margin:1.5rem 0}
+.theme-serif h3{font-size:1.2rem;color:#2c3e50;margin:1rem 0}
+.theme-serif p{font-size:1.05rem;color:#444;text-align:justify;margin-bottom:1rem}
+.theme-serif .highlight{background:#f8f9fa;padding:20px;border-left:4px solid #3498db;font-style:italic;color:#555;margin:1rem 0}
+.theme-serif .section-divider{height:1px;background:linear-gradient(to right,transparent,#ddd,transparent);margin:2rem 0}
+
+@media (max-width:768px){
+  .theme-serif .container{padding:30px}
+  .theme-serif h1{font-size:1.8rem}
+}

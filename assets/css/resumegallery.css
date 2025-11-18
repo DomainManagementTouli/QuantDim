@@ -1,0 +1,11 @@
+/* Gallery-specific styles */
+body.resume-gallery{background:#f5f7fa;color:#333}
+header.gallery-header{background:linear-gradient(135deg,#2c3e50,#4a6491);color:#fff;padding:1.25rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.08);display:flex;flex-direction:column}
+.card-icon{height:120px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#3498db,#2c3e50)}
+.card-content{padding:1rem;flex-grow:1}
+.card-title{font-weight:600;color:#2c3e50;margin-bottom:.5rem}
+.card-description{color:#666;margin-bottom:1rem}
+.card-button{background:#3498db;color:#fff;padding:.6rem;border-radius:6px;text-decoration:none;display:inline-block}
+@media(max-width:480px){.gallery{grid-template-columns:1fr}}

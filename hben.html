@@ -4,158 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HBEN Medical Evidence Analyzer - DimNamics</title>
-        <link rel="icon" type="image/png" href="faviconhben.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: #667eea;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .hero {
-            text-align: center;
-            color: white;
-            margin-bottom: 3rem;
-        }
-        
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .app-container {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .feature-card h3 {
-            color: #333;
-            margin-bottom: 1rem;
-        }
-        
-        .feature-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        .gradio-frame {
-            width: 100%;
-            height: 800px;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        
-        .footer {
-            text-align: center;
-            color: white;
-            padding: 2rem;
-            opacity: 0.8;
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
+    <link rel="icon" type="image/png" href="faviconhben.png">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/theme-sans-gradient.css">
+    <script src="assets/js/nav.js" defer></script>
 </head>
-<body>
-    <!-- Navigation Menu -->
-    <nav class="nav-container">
-        <div class="nav-toggle" id="navToggle">
-            <div class="nav-icon" id="navIcon">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        <div class="nav-menu" id="navMenu">
-            <a href="index.html">Home</a>
-            <a href="https://blossomstechservice.github.io/blossomstechservice/index.html">BlossomTechService</a>
-            <a href="embodiedcognition.html">Exploration of Embodied Cognition & Human Application</a>
-            <a href="mpt.html">Microplastics: A Comprehensive Pharmacokinetic and Toxicological Analysis</a>
-            <a href="hben.html">MODALITY TESTING [HBEN Analyzer]</a>
-
-        </div>
-    </nav>
-
-
-
+<body class="theme-sans">
     <div class="container">
-        <div class="hero">
+        <div class="header">
             <h1>HBEN Medical Evidence Analyzer</h1>
             <p>AI-powered assessment of medical research papers using Hierarchical Bayesian Evidence Networks</p>
         </div>
@@ -165,39 +21,19 @@
                 <h3>🔍 Evidence Strength Scoring</h3>
                 <p>Instant 0-100 reliability ratings with descriptive categories from "Garbage" to "Stellar"</p>
             </div>
-            <div class="feature-card">
-                <h3>📊 Automated Effect Size Extraction</h3>
-                <p>Extract OR, RR, HR values with clear formula explanations and statistical context</p>
-            </div>
-            <div class="feature-card">
-                <h3>🏗️ HBEN Layer Analysis</h3>
-                <p>Comprehensive assessment across 9 hierarchical evidence layers for complete evaluation</p>
-            </div>
         </div>
 
         <div class="app-container">
             <h2>Analyze Your Research Paper</h2>
             <p style="margin-bottom: 1rem; color: #666;">Upload a medical research PDF to get instant evidence assessment</p>
-        
-            <iframe 
-                src="https://Geotoad-app-py.hf.space" 
-                class="gradio-frame"
-                frameborder="0">
-            </iframe>
+
+            <iframe src="https://Geotoad-app-py.hf.space" class="gradio-frame" frameborder="0"></iframe>
         </div>
 
         <div class="features" id="about">
             <div class="feature-card">
                 <h3>🎯 How It Works</h3>
                 <p>Our HBEN framework analyzes study design, extracts statistical measures, and provides comprehensive evidence assessment using Bayesian principles</p>
-            </div>
-            <div class="feature-card">
-                <h3>⚡ Powered by Hugging Face</h3>
-                <p>Running on free virtual compute resources, making advanced medical evidence analysis accessible to everyone</p>
-            </div>
-            <div class="feature-card">
-                <h3>🔒 Privacy First</h3>
-                <p>Your documents are processed securely and never stored on our servers</p>
             </div>
         </div>
     </div>
