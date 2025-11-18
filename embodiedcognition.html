@@ -1247,8 +1247,30 @@
             It is none of those things. It is chosen. And what is chosen can be unchosen. The bodies and brains of current and future generations depend on whether we make that choice.
         </p>
     </div>
+    <script>
+        // Complete navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            const navIcon = document.getElementById('navIcon');
+
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                navIcon.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    navIcon.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
 
 
 
