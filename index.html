@@ -91,9 +91,122 @@
             line-height: 1.6;
         }
 
+        /* Carousel styles */
+        .carousel-container {
+            margin: 2rem auto 1rem;
+            width: 180px;
+            height: 120px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        #carousel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: carouselRotation 20s infinite linear;
+        }
+
+        #carousel:hover {
+            animation-play-state: paused;
+        }
+
+        #carousel figure {
+            display: block;
+            position: absolute;
+            width: 160px;
+            height: 100px;
+            left: 10px;
+            top: 10px;
+            background: transparent;
+            overflow: hidden;
+            border: solid 3px rgba(56, 189, 248, 0.3);
+        }
+
+        #carousel figure:nth-child(1) {
+            transform: rotateY(0deg) translateZ(250px);
+        }
+
+        #carousel figure:nth-child(2) {
+            transform: rotateY(72deg) translateZ(250px);
+        }
+
+        #carousel figure:nth-child(3) {
+            transform: rotateY(144deg) translateZ(250px);
+        }
+
+        #carousel figure:nth-child(4) {
+            transform: rotateY(216deg) translateZ(250px);
+        }
+
+        #carousel figure:nth-child(5) {
+            transform: rotateY(288deg) translateZ(250px);
+        }
+
+        #carousel img {
+            cursor: pointer;
+            transition: filter .35s ease, box-shadow .35s ease, transform .35s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center center;
+            background: transparent;
+            filter: none;
+            box-shadow: none;
+        }
+
+        #carousel img:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
+        }
+
+        @keyframes carouselRotation {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        /* Responsive carousel adjustments */
+        @media (max-width: 768px) {
+            .carousel-container {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-container {
+                transform: scale(0.6);
+            }
+        }
+
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-start p-4">
+    <!-- 3D Rotating Carousel -->
+    <div class="carousel-container">
+        <div id="carousel">
+            <figure>
+                <a href="index.html"><img src="fQD.png" alt="fQDLogo"></a>
+            </figure>
+            <figure>
+                <a href="innoresearch.html"><img src="innovoid.png" alt="innovoidLogo"></a>
+            </figure>
+            <figure>
+                <a href="https://blossomstechservice.github.io/blossomstechservice/index.html" target="_blank" rel="noopener noreferrer"><img src="BTS.png" alt="BTSLogo"></a>
+            </figure>
+            <figure>
+                <a href="hben.html"><img src="hbenlogo.png" alt="HBENLogo"></a>
+            </figure>
+            <figure>
+                <a href="resumegallery.html"><img src="resumeslogo.png" alt="resumeslogo"></a>
+            </figure>
+        </div>
+    </div>
+
     <header class="text-center mb-8">
         <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-200 mb-2">
             <span class="chinese-character">道</span> Wisdom Pool
