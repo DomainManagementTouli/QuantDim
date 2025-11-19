@@ -8,7 +8,10 @@
     const navConfig = {
         links: [
             { href: 'index.html', text: 'Home', title: 'Tao Te Ching Wisdom Pool' },
-            { href: 'innovoid/innoresearch.html', text: 'InnoVoid Research Papers', title: 'The Neurobiological Violence of Everyday Life' },
+            { href: 'embodiedcognition.html', text: 'Embodied Cognition', title: 'The Neurobiological Violence of Everyday Life' },
+            { href: 'mpt.html', text: 'Microplastics Analysis', title: 'Pharmacokinetic & Toxicological Analysis' },
+            { href: 'ecoblock.html', text: 'Novel Economic Lows', title: 'Economic Analysis' },
+            { href: 'hben.html', text: 'HBEN Analyzer', title: 'MODALITY TESTING [HBEN]' },
             { href: 'resumegallery.html', text: 'Resume Gallery', title: 'Modular Class-Based Resume Gallery' },
             { href: 'https://blossomstechservice.github.io/blossomstechservice/index.html', text: 'BlossomTechService', title: 'External: BlossomTech Service', external: true }
         ]
