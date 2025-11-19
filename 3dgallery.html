@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Anaheim" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            outline: none;
+            border: none;
+            box-sizing: border-box;
+        }
+        
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            min-height: 100%;
+        }
+        
+        h1 {
+            display: table;
+            margin: 5% auto 0;
+            text-transform: uppercase;
+            font-family: 'Anaheim', sans-serif;
+            font-size: 4em;
+            font-weight: 400;
+            text-shadow: 0 1px white, 0 2px black;
+            text-align: center;
+        }
+        
+        .container {
+            margin: 4% auto;
+            width: 210px;
+            height: 140px;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        #carousel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: rotation 20s infinite linear;
+        }
+        
+        #carousel:hover {
+            animation-play-state: paused;
+        }
+        
+        #carousel figure {
+            display: block;
+            position: absolute;
+            width: 186px;
+            height: 116px;
+            left: 10px;
+            top: 10px;
+            background: black;
+            overflow: hidden;
+            border: solid 5px black;
+        }
+        
+        #carousel figure:nth-child(1) {
+            transform: rotateY(0deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(2) {
+            transform: rotateY(40deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(3) {
+            transform: rotateY(80deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(4) {
+            transform: rotateY(120deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(5) {
+            transform: rotateY(160deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(6) {
+            transform: rotateY(200deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(7) {
+            transform: rotateY(240deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(8) {
+            transform: rotateY(280deg) translateZ(288px);
+        }
+        
+        #carousel figure:nth-child(9) {
+            transform: rotateY(320deg) translateZ(288px);
+        }
+        
+        /* Image defaults: show in color and support green glow hover */
+        img {
+            cursor: pointer;
+            transition: filter .35s ease, box-shadow .35s ease, transform .35s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: none; /* show images in full color by default */
+            box-shadow: none;
+        }
+
+        /* Option B: show whole image, centered with optional letterboxing */
+        img.contain-center {
+            object-fit: contain;
+            object-position: center center;
+            background: #000; /* looks intentional for letterboxed images */
+        }
+
+        /* Hover: pause (handled by #carousel:hover), dim and add a green glow */
+        img:hover {
+            filter: brightness(0.82);
+            box-shadow: 0 0 18px rgba(0,255,150,0.65);
+        }
+        
+        @keyframes rotation {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .container {
+                transform: scale(0.8);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                transform: scale(0.6);
+            }
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            text-align: center;
+            font-family: 'Anaheim', sans-serif;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        
+        .instructions p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div id="carousel">
+            <figure>
+                <a href="index.html"><img src="fQD.png" alt="fQDLogo" class="contain-center"></a>
+            </figure>
+             <figure>
+                <a href="innoresearch.html"><img src="innovoid.png" alt="innovoidLogo" class="contain-center"></a>
+            </figure>
+            <figure>
+                <a href="https://blossomstechservice.github.io/blossomstechservice/index.html" target="_blank" rel="noopener noreferrer"><img src="BTS.png" alt="BTSLogo" class="contain-center"></a>
+            </figure>
+            <figure>
+                <a href="hben.html"><img src="hbenlogo.png" alt="HBENLogo" class="contain-center"></a>
+            </figure>
+            <figure>
+                <a href="resumegallery.html"><img src="resumeslogo.png" alt="resumeslogo" class="contain-center"></a>
+            </figure>
+            
+        </div>
+    </div>
+    
+    <div class="instructions">
+       
+    </div>
+
+    <script>
+        // Navigation is handled by anchor links wrapped around images.
+        // No JS click handler is required here.
+    </script>
+</body>
+</html>
