@@ -12,7 +12,6 @@
             { href: 'mpt.html', text: 'Microplastics Analysis', title: 'Pharmacokinetic & Toxicological Analysis' },
             { href: 'ecoblock.html', text: 'Novel Economic Lows', title: 'Economic Analysis' },
             { href: 'hben.html', text: 'HBEN Analyzer', title: 'MODALITY TESTING [HBEN]' },
-            { href: 'BGremoval.html', text: 'BG Removal', title: 'MODALITY TESTING [Background Removal]' },
             { href: 'resumegallery.html', text: 'Resume Gallery', title: 'Modular Class-Based Resume Gallery' },
             { href: 'https://blossomstechservice.github.io/blossomstechservice/index.html', text: 'BlossomTechService', title: 'External: BlossomTech Service', external: true }
         ]
