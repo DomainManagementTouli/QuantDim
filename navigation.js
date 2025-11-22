@@ -40,7 +40,7 @@
                         </div>
                         <select class="side-select" id="qdNavSelect">
                             <option value="" selected>
-                                <span>Home</span>
+                                <span>Navigation</span>
                             </option>
                             ${navConfig.links.map(link => `
                                 <option value="${link.href}" data-external="${link.external || false}">
@@ -62,11 +62,11 @@
         style.textContent = `
             .qd-nav-container {
                 position: fixed;
-                top: 20px;
-                left: 20px;
+                top: 10px;
+                left: 10px;
                 z-index: 1000;
                 font-family: "Sour Gummy", sans-serif;
-                transform: scale(0.45);
+                transform: scale(0.55);
                 transform-origin: top left;
             }
 
@@ -77,10 +77,10 @@
             }
 
             .cat select {
-                min-width: 200px;
-                padding: 12px;
+                min-width: 180px;
+                padding: 10px 12px;
                 border-radius: 8px;
-                min-height: 48px;
+                min-height: 44px;
                 background-color: rgba(255, 255, 255, 0.95);
                 cursor: pointer;
                 border: 2px solid rgba(56, 189, 248, 0.3);
@@ -123,9 +123,9 @@
             }
 
             .sleep-symbol {
-                margin-left: 130px;
+                margin-left: 115px;
                 font-weight: 600;
-                margin-bottom: -25px;
+                margin-bottom: -22px;
                 font-size: 14px;
             }
 
@@ -153,14 +153,14 @@
 
             .thecat {
                 z-index: 2;
-                margin-left: 110px;
-                margin-bottom: -38px;
+                margin-left: 95px;
+                margin-bottom: -35px;
                 position: relative;
                 pointer-events: none;
             }
 
             .thecat svg {
-                width: 120px;
+                width: 110px;
                 height: auto;
             }
 
@@ -179,7 +179,7 @@
             }
 
             .mouse-detector {
-                padding: 10px 15px 15px 15px;
+                padding: 8px 12px 12px 12px;
             }
 
             .mouse-detector:hover #lefteyelid {
@@ -191,7 +191,7 @@
             }
 
             .cat {
-                padding: 15px;
+                padding: 12px;
             }
 
             .cat:hover #righteyelid {
