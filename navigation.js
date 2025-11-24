@@ -37,9 +37,6 @@
                             ${catSVG}
                         </div>
                         <select class="side-select" id="qdNavSelect">
-                            <option value="" selected>
-                                <span>Navigation</span>
-                            </option>
                             ${navConfig.links.map(link => `
                                 <option value="${link.href}" data-external="${link.external || false}">
                                     <span>${link.text}</span>
