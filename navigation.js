@@ -7,10 +7,10 @@
     // Navigation configuration
     const navConfig = {
         links: [
-            { href: '/QuantDim/index.html', text: 'Home', title: 'Tao Te Ching Wisdom Pool' },
-            { href: '/QuantDim/innovoid/innovoid.html', text: 'InnoVoid Technical Research Analysis'},,
-            { href: '/QuantDim/hben.html', text: 'HBEN Analyzer', title: 'MODALITY TESTING [HBEN]' },
-            { href: '/QuantDim/resumegallery.html', text: 'Resume Gallery', title: 'Modular Class-Based Resume Gallery' },
+            { href: 'index.html', text: 'Home', title: 'Tao Te Ching Wisdom Pool' },
+            { href: 'innovoid/innovoid.html', text: 'InnoVoid Technical Research Analysis'},,
+            { href: 'hben.html', text: 'HBEN Analyzer', title: 'MODALITY TESTING [HBEN]' },
+            { href: 'resumegallery.html', text: 'Resume Gallery', title: 'Modular Class-Based Resume Gallery' },
             { href: 'https://blossomstechservice.github.io/blossomstechservice/index.html', text: 'BlossomTechService', title: 'External: BlossomTech Service', external: true }
         ]
     };
