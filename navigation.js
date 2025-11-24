@@ -9,7 +9,7 @@
         links: [
             { href: 'index.html', text: 'Home', title: 'Tao Te Ching Wisdom Pool' },
             { href: 'innovoid/innovoid.html', text: 'InnoVoid Technical Research Analysis'},,
-            { href: 'hben.html', text: 'HBEN Analyzer (alpha)', title: 'MODALITY TESTING [HBEN]' },
+            { href: 'hben.html', text: 'HBEN Analyzer', title: 'MODALITY TESTING [HBEN]' },
             { href: 'resumegallery.html', text: 'Resume Gallery', title: 'Modular Class-Based Resume Gallery' },
             { href: 'https://blossomstechservice.github.io/blossomstechservice/index.html', text: 'BlossomTechService', title: 'External: BlossomTech Service', external: true }
         ]
@@ -29,10 +29,24 @@
                 <div class="mouse-detector">
                     <div class="cat">
                         <div class="sleep-symbol">
+                            <span>Z</span>
+                            <span>z</span>
+                            <span>z</span>
                         </div>
                         <div class="thecat">
                             ${catSVG}
                         </div>
+                        <select class="side-select" id="qdNavSelect">
+                            <option value="" selected>
+                                <span>Navigation</span>
+                            </option>
+                            ${navConfig.links.map(link => `
+                                <option value="${link.href}" data-external="${link.external || false}">
+                                    <span>${link.text}</span>
+                                    ${tailSVG}
+                                </option>
+                            `).join('')}
+                        </select>
                     </div>
                 </div>
             </nav>
