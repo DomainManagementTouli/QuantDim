@@ -29,16 +29,12 @@
                 <div class="mouse-detector">
                     <div class="cat">
                         <div class="sleep-symbol">
-                            <span>Z</span>
-                            <span>z</span>
-                            <span>z</span>
                         </div>
                         <div class="thecat">
                             ${catSVG}
                         </div>
                         <select class="side-select" id="qdNavSelect">
                             <option value="" selected>
-                                <span>Navigation</span>
                             </option>
                             ${navConfig.links.map(link => `
                                 <option value="${link.href}" data-external="${link.external || false}">
