@@ -33,16 +33,6 @@
                         <div class="thecat">
                             ${catSVG}
                         </div>
-                        <select class="side-select" id="qdNavSelect">
-                            <option value="" selected>
-                            </option>
-                            ${navConfig.links.map(link => `
-                                <option value="${link.href}" data-external="${link.external || false}">
-                                    <span>${link.text}</span>
-                                    ${tailSVG}
-                                </option>
-                            `).join('')}
-                        </select>
                     </div>
                 </div>
             </nav>
