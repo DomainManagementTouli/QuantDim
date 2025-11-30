@@ -233,5 +233,19 @@
         <p>&copy; 2023 QuantDim Resume Gallery | All Rights Reserved</p>
     </footer>
     <script src="navigation.js"></script>
+    <script src="auth.js"></script>
+<script>
+// Authentication check - add this to every protected page
+document.addEventListener('DOMContentLoaded', function() {
+    if (!Auth.isAuthenticated()) {
+        const currentPage = window.location.pathname.split('/').pop();
+        window.location.href = 'login.html?redirect=' + encodeURIComponent(currentPage);
+    } else {
+        // Optional: Display user info if needed
+        const user = Auth.getCurrentUser();
+        console.log('Logged in as:', user.email);
+    }
+});
+</script>
 </body>
 </html>
