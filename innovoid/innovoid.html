@@ -42,26 +42,22 @@
             cursor: not-allowed;
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
-            opacity: 0.6;
             transition: all 0.3s ease;
             object-fit: cover;
         }
 
         .gif-placeholder.ready {
             cursor: pointer;
-            opacity: 1;
-            border-color: #dd8448;
-            box-shadow: 0 0 20px rgba(221, 132, 72, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .gif-placeholder.ready:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(221, 132, 72, 0.5);
         }
 
         .gif-placeholder.playing {
-            cursor: default;
-            border-color: #2ecc71;
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         /* Main container */
@@ -592,37 +588,38 @@
             </div>
         </a>
     </main>
-<script>
-    const gifImage = document.getElementById('gifImage');
-    const gifUrl = gifImage.dataset.gif;
-    let isReady = true; // Changed to true - ready immediately
-    let isPlaying = false;
-    let hasBeenClickedOnce = false;
 
-    // Set as ready immediately on page load
-    gifImage.classList.add('ready');
+    <script>
+        const gifImage = document.getElementById('gifImage');
+        const gifUrl = gifImage.dataset.gif;
+        let isReady = true;
+        let isPlaying = false;
+        let cooldownTimer = null;
 
-    // Click handler
-    gifImage.addEventListener('click', () => {
-        if (isReady && !isPlaying) {
-            // First click: play the GIF and start the cooldown
-            gifImage.src = gifUrl + '?t=' + new Date().getTime();
-            isPlaying = true;
-            gifImage.classList.add('playing');
-            gifImage.classList.remove('ready');
-            hasBeenClickedOnce = true;
-            
-            // After first click, start 11-second cooldown before allowing next click
-            setTimeout(() => {
-                isPlaying = false;
-                isReady = true;
-                gifImage.classList.remove('playing');
-                gifImage.classList.add('ready');
-            }, 11000);
-        }
-    });
-</script>
+        // Set as ready immediately on page load
+        gifImage.classList.add('ready');
 
-    <footer>These articles are LSTM assisted pieces to explore systems around information systems</footer>
+        // Click handler
+        gifImage.addEventListener('click', () => {
+            if (isReady && !isPlaying) {
+                // Play the GIF once
+                gifImage.src = gifUrl + '?t=' + new Date().getTime();
+                isPlaying = true;
+                isReady = false;
+                gifImage.classList.add('playing');
+                gifImage.classList.remove('ready');
+                
+                // Start 11-second cooldown
+                cooldownTimer = setTimeout(() => {
+                    isPlaying = false;
+                    isReady = true;
+                    gifImage.classList.remove('playing');
+                    gifImage.classList.add('ready');
+                }, 11000);
+            }
+        });
+    </script>
+
+    <footer></footer>
 </body>
 </html>
