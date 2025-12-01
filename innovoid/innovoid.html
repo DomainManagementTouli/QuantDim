@@ -414,6 +414,7 @@
         <img id="gifImage" 
              src="innotoad 200px^200px.png" 
              data-gif="animation.gif" 
+             data-placeholder="innotoad 200px^200px.png"
              class="gif-placeholder" 
              alt="Click to play animation">
     </div>
@@ -592,6 +593,7 @@
     <script>
         const gifImage = document.getElementById('gifImage');
         const gifUrl = gifImage.dataset.gif;
+        const placeholderUrl = gifImage.dataset.placeholder;
         let isReady = true;
         let isPlaying = false;
         let cooldownTimer = null;
@@ -602,15 +604,16 @@
         // Click handler
         gifImage.addEventListener('click', () => {
             if (isReady && !isPlaying) {
-                // Play the GIF once
+                // Play the GIF
                 gifImage.src = gifUrl + '?t=' + new Date().getTime();
                 isPlaying = true;
                 isReady = false;
                 gifImage.classList.add('playing');
                 gifImage.classList.remove('ready');
                 
-                // Start 11-second cooldown
+                // After 11 seconds, return to placeholder and re-enable
                 cooldownTimer = setTimeout(() => {
+                    gifImage.src = placeholderUrl;
                     isPlaying = false;
                     isReady = true;
                     gifImage.classList.remove('playing');
