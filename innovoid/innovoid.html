@@ -26,6 +26,44 @@
             overflow-x: hidden;
         }
 
+        /* GIF Container - Positioned above all content */
+        .gif-container {
+            text-align: center;
+            margin: 20px auto;
+            width: 200px;
+            height: 200px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .gif-placeholder {
+            width: 200px;
+            height: 200px;
+            cursor: not-allowed;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            object-fit: cover;
+        }
+
+        .gif-placeholder.ready {
+            cursor: pointer;
+            opacity: 1;
+            border-color: #dd8448;
+            box-shadow: 0 0 20px rgba(221, 132, 72, 0.3);
+        }
+
+        .gif-placeholder.ready:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(221, 132, 72, 0.5);
+        }
+
+        .gif-placeholder.playing {
+            cursor: default;
+            border-color: #2ecc71;
+        }
+
         /* Main container */
         .main-container {
             display: grid;
@@ -375,6 +413,15 @@
     </style>
 </head>
 <body>
+    <!-- GIF Container - Above all content, centered -->
+    <div class="gif-container">
+        <img id="gifImage" 
+             src="placeholder.jpg" 
+             data-gif="animation.gif" 
+             class="gif-placeholder" 
+             alt="Click to play animation">
+    </div>
+
     <svg class="svg-container">
         <defs>
             <!-- Filter 1 -->
@@ -545,6 +592,31 @@
             </div>
         </a>
     </main>
-    <footer>      </footer>
+
+    <script>
+        const gifImage = document.getElementById('gifImage');
+        const gifUrl = gifImage.dataset.gif;
+        let isReady = false;
+        let isPlaying = false;
+
+        // Wait 11 seconds before enabling
+        setTimeout(() => {
+            isReady = true;
+            gifImage.classList.add('ready');
+        }, 11000);
+
+        // Click handler
+        gifImage.addEventListener('click', () => {
+            if (isReady && !isPlaying) {
+                // Add timestamp to force reload and play from start
+                gifImage.src = gifUrl + '?t=' + new Date().getTime();
+                isPlaying = true;
+                gifImage.classList.add('playing');
+                gifImage.classList.remove('ready');
+            }
+        });
+    </script>
+
+    <footer></footer>
 </body>
 </html>
