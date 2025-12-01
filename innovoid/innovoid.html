@@ -592,31 +592,37 @@
             </div>
         </a>
     </main>
+<script>
+    const gifImage = document.getElementById('gifImage');
+    const gifUrl = gifImage.dataset.gif;
+    let isReady = true; // Changed to true - ready immediately
+    let isPlaying = false;
+    let hasBeenClickedOnce = false;
 
-    <script>
-        const gifImage = document.getElementById('gifImage');
-        const gifUrl = gifImage.dataset.gif;
-        let isReady = false;
-        let isPlaying = false;
+    // Set as ready immediately on page load
+    gifImage.classList.add('ready');
 
-        // Wait 11 seconds before enabling
-        setTimeout(() => {
-            isReady = true;
-            gifImage.classList.add('ready');
-        }, 11000);
+    // Click handler
+    gifImage.addEventListener('click', () => {
+        if (isReady && !isPlaying) {
+            // First click: play the GIF and start the cooldown
+            gifImage.src = gifUrl + '?t=' + new Date().getTime();
+            isPlaying = true;
+            gifImage.classList.add('playing');
+            gifImage.classList.remove('ready');
+            hasBeenClickedOnce = true;
+            
+            // After first click, start 11-second cooldown before allowing next click
+            setTimeout(() => {
+                isPlaying = false;
+                isReady = true;
+                gifImage.classList.remove('playing');
+                gifImage.classList.add('ready');
+            }, 11000);
+        }
+    });
+</script>
 
-        // Click handler
-        gifImage.addEventListener('click', () => {
-            if (isReady && !isPlaying) {
-                // Add timestamp to force reload and play from start
-                gifImage.src = gifUrl + '?t=' + new Date().getTime();
-                isPlaying = true;
-                gifImage.classList.add('playing');
-                gifImage.classList.remove('ready');
-            }
-        });
-    </script>
-
-    <footer></footer>
+    <footer>These articles are LSTM assisted pieces to explore systems around information systems</footer>
 </body>
 </html>
