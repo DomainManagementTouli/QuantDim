@@ -21,7 +21,7 @@ QuantDim is a research notebook and digital portfolio exploring the intersection
 
 ### Main Pages
 - **[Home](index.html)** - Tao Te Ching Wisdom Pool (Interactive philosophy experience)
-- **[Embodied Cognition](embodiedcognition.html)** - The Neurobiological Violence of Everyday Life
+- **[Embodied Cognition](embodiedcognition.html)** - The Neurobiological Conditioning of Everyday Life
 - **[Microplastics Analysis](mpt.html)** - Pharmacokinetic & Toxicological Analysis
 - **[Novel Economic Lows](ecoblock.html)** - Analysis of Structural Economic Constraints
 - **[HBEN Analyzer](hben.html)** - AI-powered Medical Evidence Analysis Tool
