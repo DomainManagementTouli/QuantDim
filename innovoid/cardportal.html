@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Reviews</title>
+      <script src="navigation.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #f0f0f0;
+            --light-bg: #f8f9fa;
+            --light-card: #ffffff;
+            --light-text: #333333;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            transition: var(--transition);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        body.dark-mode header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .theme-toggle {
+            background: var(--light-card);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--dark-card);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--light-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        body.dark-mode .card {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            z-index: 1;
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            color: var(--primary-color);
+            flex-grow: 1;
+        }
+
+        body.dark-mode .card-title {
+            color: var(--accent-color);
+        }
+
+        .card-subtitle {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+            font-style: italic;
+            border-top: 1px dashed rgba(0, 0, 0, 0.1);
+            padding-top: 15px;
+            margin-top: auto;
+        }
+
+        body.dark-mode .card-subtitle {
+            color: #aaa;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: rgba(67, 97, 238, 0.05);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .card-footer {
+            background: rgba(67, 97, 238, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .file-type {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 50px;
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .card-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .card-link {
+            color: var(--accent-color);
+        }
+
+        .card-link:hover {
+            gap: 12px;
+        }
+
+        .card:nth-child(3n+1) .card-title {
+            color: #4361ee;
+        }
+
+        .card:nth-child(3n+2) .card-title {
+            color: #3a0ca3;
+        }
+
+        .card:nth-child(3n+3) .card-title {
+            color: #7209b7;
+        }
+
+        body.dark-mode .card:nth-child(3n+1) .card-title {
+            color: #4cc9f0;
+        }
+
+        body.dark-mode .card:nth-child(3n+2) .card-title {
+            color: #4895ef;
+        }
+
+        body.dark-mode .card:nth-child(3n+3) .card-title {
+            color: #b5179e;
+        }
+
+        .card:nth-child(3n+1)::before {
+            background: linear-gradient(90deg, #4361ee, #4cc9f0);
+        }
+
+        .card:nth-child(3n+2)::before {
+            background: linear-gradient(90deg, #3a0ca3, #7209b7);
+        }
+
+        .card:nth-child(3n+3)::before {
+            background: linear-gradient(90deg, #7209b7, #f72585);
+        }
+
+        .card:nth-child(3n+1) .file-type {
+            background: #4361ee;
+        }
+
+        .card:nth-child(3n+2) .file-type {
+            background: #3a0ca3;
+        }
+
+        .card:nth-child(3n+3) .file-type {
+            background: #7209b7;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .theme-toggle {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 50px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .footer-note {
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Technical Reviews</h1>
+            <button id="themeToggle" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </button>
+        </header>
+
+        <div class="gallery" id="articlesGallery">
+            <!-- Cards will be generated by JavaScript -->
+        </div>
+        
+        <div class="footer-note">
+            <p>Augmented Research & Technical Writing From: D.M.M. | AI Assisted: Clause Sonnet 4.5</p>
+        </div>
+    </div>
+
+    <script>
+        // Article data
+        const articles = [
+            {
+                file: "aboutthebn.pdf",
+                title: "The Hierarchical Bayesian Evidence Network (HBEN): A Comprehensive Information Architecture for Clinical Knowledge",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            },
+            {
+                file: "embodiedcognition.html",
+                title: "An Applied Introduction to Embodied Cognition: What It Means For Society",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            },
+            {
+                file: "mpt.html",
+                title: "Microplastics: A Comprehensive Toxicological Analysis of Novel Considerations in Absorption, Distribution, Metabolism, and Excretion",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            },
+            {
+                file: "genpharma.pdf",
+                title: "Exploring The Myths of Generic Drugs & Their Pharmacokinetic Integrity",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            },
+            {
+                file: "bup.pdf",
+                title: "Ubiquitous Role of Peripheral Physiological Effects of Bupropion HCl, Norepinephrine: A review of Bupropion HCl's Therapeutic Context",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            },
+            {
+                file: "econconstraints.pdf",
+                title: "Systemic Socioeconomics Performance Review Through Research Analysis",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            },
+            {
+                file: "wemodelnow.pdf",
+                title: "Computational Architecture of Human Social Systems: Cognitive, Metacognitive, and Supracognitive Relational Modeling",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            },
+            {
+                file: "psiorganoids.pdf",
+                title: "A Biomolecular Implementation of Joscha Bach's Mechanistic PSI Architecture in a Multi-Organoid Autonomous System",
+                subtitle: "Augmented Research & Technical Writing From: D.M.M. , AI Assisted: Clause Sonnet 4.5"
+            }
+        ];
+
+        // Function to create article cards
+        function createArticleCards() {
+            const gallery = document.getElementById('articlesGallery');
+            
+            articles.forEach(article => {
+                // Determine file type
+                const fileExtension = article.file.split('.').pop();
+                const fileType = fileExtension.toUpperCase();
+                
+                // Create card element
+                const card = document.createElement('a');
+                card.href = article.file;
+                card.className = 'card';
+                card.target = "_blank";
+                
+                card.innerHTML = `
+                    <div class="card-content">
+                        <h2 class="card-title">${article.title}</h2>
+                        <p class="card-subtitle">${article.subtitle}</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="file-type">${fileType}</span>
+                        <span class="card-link">Read Article <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                `;
+                
+                gallery.appendChild(card);
+            });
+        }
+
+        // Theme toggle functionality
+        function initThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            // Check for saved theme or prefer-color-scheme
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                document.body.classList.remove('dark-mode');
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+            
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Light Mode';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    icon.className = 'fas fa-moon';
+                    text.textContent = 'Dark Mode';
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            createArticleCards();
+            initThemeToggle();
+        });
+    </script>
+</body>
+</html>
