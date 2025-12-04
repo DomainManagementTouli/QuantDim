@@ -8,7 +8,7 @@
     const navConfig = {
         links: [
             { href: 'index.html', text: 'Home', title: 'Tao Te Ching Wisdom Pool' },
-            { href: 'innovoid/cardgallery.html', text: 'Technical Reviews'},
+            { href: 'innovoid/cardportal.html', text: 'Technical Reviews'},
             { href: 'hben.html', text: 'HBEN Analyzer'},
             { href: 'resumegallery.html', text: 'Resume Gallery', title: 'Modular Class-Based Resume Gallery' },
             { href: 'https://blossomstechservice.github.io/blossomstechservice/index.html', text: 'BlossomTechService', title: 'External: BlossomTech Service', external: true }
