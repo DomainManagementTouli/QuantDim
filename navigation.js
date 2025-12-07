@@ -10,7 +10,8 @@
             { href: 'index.html', text: 'Home', title: 'Tao Te Ching Wisdom Pool' },
             { href: 'innovoid/cardportal.html', text: 'Technical Reviews'},
             { href: 'hben.html', text: 'HBEN Analyzer'},
-            { href: 'resumegallery.html', text: 'Resume Gallery', title: 'Modular Class-Based Resume Gallery' },
+            { href: 'resumegallery.html', text: 'Resume Gallery'},
+            { href: 'https://www.lisep.org/', text: 'Ludwig Institute for Shared Economic Prosperity'},
             { href: 'https://blossomstechservice.github.io/blossomstechservice/index.html', text: 'BlossomTechService', title: 'External: BlossomTech Service', external: true }
         ]
     };
