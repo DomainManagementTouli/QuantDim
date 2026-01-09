@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Universal CSV Row Matcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .info-box ul {
+            margin-left: 20px;
+            color: #555;
+        }
+        .info-box li {
+            margin: 5px 0;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .hint {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+        }
+        .btn-file {
+            background: #ed8936;
+            color: white;
+        }
+        .btn-file:hover {
+            background: #dd6b20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(237, 137, 54, 0.4);
+        }
+        #status {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-weight: 500;
+            display: none;
+        }
+        #status.processing {
+            display: block;
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fbbf24;
+        }
+        #status.success {
+            display: block;
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+        #status.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+        #results {
+            margin-top: 30px;
+        }
+        #resultsContent {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        .example {
+            background: #fff9e6;
+            border: 1px solid #ffd966;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        .example-title {
+            font-weight: 600;
+            color: #d97706;
+            margin-bottom: 8px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Universal CSV Row Matcher</h1>
+            <p>Find rows based on cell content and extract specific columns</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h3>📋 How This Works</h3>
+                <ul>
+                    <li>Upload your CSV file</li>
+                    <li>Specify which columns to search in (e.g., "R:BGB" or "A,C,D")</li>
+                    <li>Enter the text value to search for (e.g., "HAS", "Yes", "Active")</li>
+                    <li>Choose which columns you want to see in the output</li>
+                    <li><strong>Note:</strong> Column names are taken from Row 1 of your CSV</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">1. Upload CSV File</div>
+                <input type="file" id="fileInput" accept=".csv">
+                <button class="btn-file" onclick="document.getElementById('fileInput').click()">
+                    📁 Choose CSV File
+                </button>
+                <span id="fileName" style="margin-left: 15px; color: #666;"></span>
+            </div>
+
+            <div class="section">
+                <div class="section-title">2. Configure Search</div>
+                
+                <label>Column Range to Search In:</label>
+                <input type="text" id="columnRange" placeholder="e.g., R:BGB or A,C,E,F or D:Z">
+                <div class="hint">Use ":" for ranges (A:Z) or commas for specific columns (A,B,C)</div>
+                
+                <div class="example">
+                    <div class="example-title">Examples:</div>
+                    <div>• <code>R:BGB</code> - Search in columns R through BGB</div>
+                    <div>• <code>A,C,D</code> - Search only in columns A, C, and D</div>
+                    <div>• <code>B:F</code> - Search in columns B through F</div>
+                </div>
+
+                <label style="margin-top: 20px;">Search For This Value:</label>
+                <input type="text" id="searchValue" placeholder="e.g., HAS, Yes, Active, TRUE">
+                <div class="hint">Case-insensitive search</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">3. Choose Output Columns</div>
+                
+                <label>Columns to Display in Results:</label>
+                <input type="text" id="outputColumns" placeholder="e.g., C,A or A,B,C">
+                <div class="hint">Comma-separated column letters (e.g., C,A shows Column C then Column A)</div>
+                
+                <div class="example">
+                    <div class="example-title">Example Output Format:</div>
+                    <div>Row 5, Menu Item: Burger, Ingredient: Gluten</div>
+                    <div style="margin-top: 5px; color: #666;">(Shows row number + values from columns you specified)</div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="processCSV()">🚀 Process CSV</button>
+                <button class="btn-secondary" id="downloadBtn" onclick="downloadResults()" style="display:none;">
+                    💾 Download Results
+                </button>
+            </div>
+
+            <div id="status"></div>
+
+            <div id="results" style="display:none;">
+                <div class="section-title">📊 Results</div>
+                <div id="resultsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        let resultsData = '';
+        let currentFile = null;
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            currentFile = e.target.files[0];
+            if (currentFile) {
+                document.getElementById('fileName').textContent = '✓ ' + currentFile.name;
+            }
+        });
+
+        function columnToIndex(col) {
+            col = col.toUpperCase();
+            let index = 0;
+            for (let i = 0; i < col.length; i++) {
+                index = index * 26 + (col.charCodeAt(i) - 64);
+            }
+            return index - 1;
+        }
+
+        function parseColumnRange(rangeStr) {
+            rangeStr = rangeStr.trim().toUpperCase();
+            let columns = [];
+            
+            if (rangeStr.includes(':')) {
+                let [start, end] = rangeStr.split(':');
+                let startIdx = columnToIndex(start);
+                let endIdx = columnToIndex(end);
+                for (let i = startIdx; i <= endIdx; i++) {
+                    columns.push(i);
+                }
+            } else if (rangeStr.includes(',')) {
+                let cols = rangeStr.split(',');
+                cols.forEach(col => {
+                    columns.push(columnToIndex(col.trim()));
+                });
+            } else {
+                columns.push(columnToIndex(rangeStr));
+            }
+            
+            return columns;
+        }
+
+        function setStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = type;
+        }
+
+        function processCSV() {
+            if (!currentFile) {
+                setStatus('❌ Please select a CSV file first!', 'error');
+                return;
+            }
+
+            const columnRange = document.getElementById('columnRange').value;
+            const searchValue = document.getElementById('searchValue').value;
+            const outputColumns = document.getElementById('outputColumns').value;
+
+            if (!columnRange || !searchValue || !outputColumns) {
+                setStatus('❌ Please fill in all fields!', 'error');
+                return;
+            }
+
+            setStatus('⏳ Processing your CSV file...', 'processing');
+            document.getElementById('results').style.display = 'none';
+
+            Papa.parse(currentFile, {
+                complete: function(results) {
+                    try {
+                        const rows = results.data;
+                        const headers = rows[0];
+                        
+                        const searchColumns = parseColumnRange(columnRange);
+                        const displayColumns = parseColumnRange(outputColumns);
+                        const searchTerm = searchValue.trim().toUpperCase();
+                        
+                        let output = `CSV Analysis Results\n`;
+                        output += `File: ${currentFile.name}\n`;
+                        output += `Total Rows: ${rows.length - 1}\n`;
+                        output += `Total Columns: ${headers.length}\n`;
+                        output += `Searching in columns: ${columnRange}\n`;
+                        output += `Looking for: "${searchValue}"\n`;
+                        output += `\n${'='.repeat(80)}\n\n`;
+                        
+                        let matchCount = 0;
+                        
+                        for (let i = 1; i < rows.length; i++) {
+                            const row = rows[i];
+                            let foundMatch = false;
+                            let matchedColumn = -1;
+                            
+                            for (let colIdx of searchColumns) {
+                                if (colIdx < row.length) {
+                                    const cell = row[colIdx];
+                                    if (cell && cell.toString().trim().toUpperCase() === searchTerm) {
+                                        foundMatch = true;
+                                        matchedColumn = colIdx;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if (foundMatch) {
+                                matchCount++;
+                                output += `Row ${i + 1}`;
+                                
+                                for (let colIdx of displayColumns) {
+                                    if (colIdx < row.length && colIdx < headers.length) {
+                                        const columnName = headers[colIdx] || `Column ${colIdx + 1}`;
+                                        const cellValue = row[colIdx] || '(empty)';
+                                        output += `, ${columnName}: ${cellValue}`;
+                                    }
+                                }
+                                
+                                if (matchedColumn >= 0 && matchedColumn < headers.length) {
+                                    const matchedColName = headers[matchedColumn] || `Column ${matchedColumn + 1}`;
+                                    output += `, Matched In: ${matchedColName}`;
+                                }
+                                
+                                output += '\n';
+                            }
+                        }
+                        
+                        output += `\n${'='.repeat(80)}\n`;
+                        output += `Total Matches Found: ${matchCount}\n`;
+                        
+                        resultsData = output;
+                        document.getElementById('resultsContent').textContent = output;
+                        document.getElementById('results').style.display = 'block';
+                        document.getElementById('downloadBtn').style.display = 'inline-block';
+                        setStatus(`✅ Success! Found ${matchCount} matching rows.`, 'success');
+                        
+                    } catch (error) {
+                        setStatus(`❌ Error: ${error.message}`, 'error');
+                    }
+                },
+                error: function(error) {
+                    setStatus(`❌ Failed to parse CSV: ${error.message}`, 'error');
+                }
+            });
+        }
+
+        function downloadResults() {
+            const blob = new Blob([resultsData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'csv_match_results.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
