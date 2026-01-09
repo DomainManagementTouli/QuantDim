@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV HAS Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #results {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        #status {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSV HAS Value Extractor</h1>
+        <p>Select your MenuItemDetailsReport.csv file and this will extract all rows with "HAS" values.</p>
+        
+        <input type="file" id="fileInput" accept=".csv" style="display:none">
+        <button onclick="document.getElementById('fileInput').click()">Select CSV File</button>
+        <button onclick="downloadResults()" id="downloadBtn" style="display:none">Download Results</button>
+        
+        <div id="status"></div>
+        <div id="results"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        let resultsData = '';
+        
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            document.getElementById('status').textContent = 'Processing file...';
+            document.getElementById('results').textContent = '';
+            
+            Papa.parse(file, {
+                complete: function(results) {
+                    const rows = results.data;
+                    const headers = rows[0];
+                    
+                    let output = `File has ${rows.length - 1} rows and ${headers.length} columns\n\n`;
+                    output += 'Results (Column A Value -> Column Header):\n\n';
+                    
+                    let count = 0;
+                    for (let i = 1; i < rows.length; i++) {
+                        const row = rows[i];
+                        const columnAValue = row[0];
+                        
+                        if (!columnAValue || !columnAValue.trim()) continue;
+                        
+                        for (let j = 1; j < row.length; j++) {
+                            const cell = row[j];
+                            if (cell && cell.trim().toUpperCase() === 'HAS') {
+                                count++;
+                                output += `${count}. ${columnAValue.trim()} -> ${headers[j].trim()}\n`;
+                            }
+                        }
+                    }
+                    
+                    if (count === 0) {
+                        output += '\nNo HAS values found in the file.';
+                    } else {
+                        output = `Found ${count} HAS entries!\n\n` + output;
+                    }
+                    
+                    resultsData = output;
+                    document.getElementById('results').textContent = output;
+                    document.getElementById('status').textContent = 'Complete!';
+                    document.getElementById('downloadBtn').style.display = 'inline-block';
+                },
+                error: function(error) {
+                    document.getElementById('status').textContent = 'Error: ' + error.message;
+                }
+            });
+        });
+        
+        function downloadResults() {
+            const blob = new Blob([resultsData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'HAS_results.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
