@@ -1,52 +1,4 @@
-for (let i = 1; i < rows.length; i++) {
-                            const row = rows[i];
-                            let foundMatch = false;
-                            let matchedColumns = [];
-                            
-                            for (let colIdx of searchColumns) {
-                                if (colIdx < row.length) {
-                                    const cell = row[colIdx];
-                                    if (cell && cell.toString().trim().toUpperCase() === searchTerm) {
-                                        foundMatch = true;
-                                        matchedColumns.push(colIdx);
-                                    }
-                                }
-                            }
-                            
-                            if (foundMatch) {
-                                matchCount++;
-                                output += `Row ${i + 1}`;
-                                
-                                let rowData = {
-                                    rowNumber: i + 1,
-                                    data: {},
-                                    matchedColumns: []
-                                };
-                                
-                                for (let colIdx of displayColumns) {
-                                    if (colIdx < row.length && colIdx < headers.length) {
-                                        const columnName = headers[colIdx] || `Column ${colIdx + 1}`;
-                                        const cellValue = row[colIdx] || '(empty)';
-                                        output += `, ${columnName}: ${cellValue}`;
-                                        rowData.data[columnName] = cellValue;
-                                    }
-                                }
-                                
-                                if (matchedColumns.length > 0) {
-                                    const matchedColNames = matchedColumns.map(colIdx => {
-                                        if (colIdx < headers.length) {
-                                            return headers[colIdx] || `Column ${colIdx + 1}`;
-                                        }
-                                        return `Column ${colIdx + 1}`;
-                                    });
-                                    output += `, Matched In: ${matchedColNames.join(', ')}`;
-                                    rowData.matchedColumns = matchedColNames;
-                                }
-                                
-                                output += '\n';
-                                matchedRows.push(rowData);
-                            }
-                        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Universal CSV Row Matcher</title>
@@ -310,7 +262,7 @@ for (let i = 1; i < rows.length; i++) {
                     <label style="color: white; font-size: 18px; font-weight: 700; text-align: center; display: block; margin-bottom: 12px;">
                         📁 Choose Your Download Format:
                     </label>
-                    <select id="formatSelect" style="font-size: 16px; font-weight: 600; padding: 15px 40px 15px 15px; border: 5px solid #ffd700; background: white; color: #2f855a; cursor: pointer; box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.5); width: 85%; margin: 0 auto; display: block; appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2724%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%232f855a%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 10px center; background-size: 24px;">
+                    <select id="formatSelect" style="font-size: 16px; font-weight: 600; padding: 15px; border: 3px solid white; background: white; color: #2f855a; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
                         <option value="txt">📄 TXT - Plain Text</option>
                         <option value="csv">📊 CSV - Comma Separated Values</option>
                         <option value="json">🔧 JSON - JavaScript Object Notation</option>
@@ -428,14 +380,15 @@ for (let i = 1; i < rows.length; i++) {
                         for (let i = 1; i < rows.length; i++) {
                             const row = rows[i];
                             let foundMatch = false;
-                            let matchedColumns = [];
+                            let matchedColumn = -1;
                             
                             for (let colIdx of searchColumns) {
                                 if (colIdx < row.length) {
                                     const cell = row[colIdx];
                                     if (cell && cell.toString().trim().toUpperCase() === searchTerm) {
                                         foundMatch = true;
-                                        matchedColumns.push(colIdx);
+                                        matchedColumn = colIdx;
+                                        break;
                                     }
                                 }
                             }
@@ -446,8 +399,7 @@ for (let i = 1; i < rows.length; i++) {
                                 
                                 let rowData = {
                                     rowNumber: i + 1,
-                                    data: {},
-                                    matchedColumns: []
+                                    data: {}
                                 };
                                 
                                 for (let colIdx of displayColumns) {
@@ -459,15 +411,10 @@ for (let i = 1; i < rows.length; i++) {
                                     }
                                 }
                                 
-                                if (matchedColumns.length > 0) {
-                                    const matchedColNames = matchedColumns.map(colIdx => {
-                                        if (colIdx < headers.length) {
-                                            return headers[colIdx] || `Column ${colIdx + 1}`;
-                                        }
-                                        return `Column ${colIdx + 1}`;
-                                    });
-                                    output += `, Matched In: ${matchedColNames.join(', ')}`;
-                                    rowData.matchedColumns = matchedColNames;
+                                if (matchedColumn >= 0 && matchedColumn < headers.length) {
+                                    const matchedColName = headers[matchedColumn] || `Column ${matchedColumn + 1}`;
+                                    output += `, Matched In: ${matchedColName}`;
+                                    rowData.matchedIn = matchedColName;
                                 }
                                 
                                 output += '\n';
