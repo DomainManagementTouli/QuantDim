@@ -8,7 +8,7 @@
     const navConfig = {
         links: [
             { href: 'index.html', text: 'Home', title: 'Tao Te Ching Wisdom Pool' },
-            { href: 'CSVValueMatcher.html', text: 'CSV Value Matcher Tool'},
+            { href: 'tools/CSVValueMatcher.html', text: 'CSV Value Matcher Tool'},
             { href: 'innovoid/cardportal.html', text: 'Epistemological Analysis Explored [Prompt-Guided LLM Navigation] '},
             { href: 'toys/hben.html', text: 'HBEN Analyzer'},
             { href: 'resume/resumegallery.html', text: 'Resume Gallery'},
