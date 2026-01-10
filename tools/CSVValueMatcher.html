@@ -190,15 +190,21 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Universal CSV Row Matcher</h1>
+            <h1>CSV Row Matcher : Set-valued function mapper</h1>
             <p>Find rows based on cell content and extract specific columns</p>
+            <p>This tool addresses a fundamental but overlooked data problem: spreadsheets forced to act as entire relational databases within a single table. When complex information gets flattened into a grid, the meaning of the data—what the rows and columns represent—gets embedded within the data itself, typically with column headers in Row 1.
+
+This application helps you navigate that structure. It locates all cells matching your search term and intelligently retrieves the proper identifiers: the value from your specified row (like an item name) and the corresponding column header (like a property or category) for every match. It outputs these paired results in your choice of cleanly formatted PDF, CSV, JSON, XLSX, or TXT files.
+
+The entire process is secure and private. All parsing, searching, and file generation happens client-side in your browser. No data is ever sent to a server—it never leaves your machine. You get the power of a data processing utility with the absolute privacy of a local application. The code is open for inspection, confirming that no data or metadata is ever collected or transmitted. </p>
         </div>
-        <img src="csvm.gif" 
+<img src="csvm.gif" 
      alt="CSVM Logo" 
      style="position: fixed; 
             top: 15px; 
-            right: 15px; 
-            width: 80px; 
+            left: 15px; 
+            width: 240px; 
+            height: auto;  <!-- Keeps aspect ratio -->
             z-index: 1000;">
         <div class="content">
             <div class="info-box">
