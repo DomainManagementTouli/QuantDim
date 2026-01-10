@@ -72,7 +72,7 @@
             color: #555;
             font-weight: 500;
         }
-        input[type="text"], textarea {
+        input[type="text"], textarea, select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
@@ -80,7 +80,7 @@
             font-size: 14px;
             transition: border 0.3s;
         }
-        input[type="text"]:focus, textarea:focus {
+        input[type="text"]:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -250,23 +250,42 @@
 
             <div class="button-group">
                 <button class="btn-primary" onclick="processCSV()">🚀 Process CSV</button>
-                <button class="btn-secondary" id="downloadBtn" onclick="downloadResults()" style="display:none;">
-                    💾 Download Results
-                </button>
             </div>
 
             <div id="status"></div>
 
+            <div id="downloadSection" style="display:none; margin-top: 30px;">
+                <div class="section">
+                    <div class="section-title">4. Download Results</div>
+                    <label>Select Download Format:</label>
+                    <select id="formatSelect">
+                        <option value="txt">TXT - Plain Text</option>
+                        <option value="csv">CSV - Comma Separated Values</option>
+                        <option value="json">JSON - JavaScript Object Notation</option>
+                        <option value="xlsx">XLSX - Excel Spreadsheet</option>
+                        <option value="pdf">PDF - Portable Document Format</option>
+                    </select>
+                    <div style="margin-top: 15px;">
+                        <button class="btn-secondary" onclick="downloadResults()">
+                            💾 Download Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div id="results" style="display:none;">
-                <div class="section-title">📊 Results</div>
+                <div class="section-title">📊 Results Preview</div>
                 <div id="resultsContent"></div>
             </div>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         let resultsData = '';
+        let matchedRows = [];
         let currentFile = null;
 
         document.getElementById('fileInput').addEventListener('change', function(e) {
@@ -331,6 +350,7 @@
 
             setStatus('⏳ Processing your CSV file...', 'processing');
             document.getElementById('results').style.display = 'none';
+            document.getElementById('downloadSection').style.display = 'none';
 
             Papa.parse(currentFile, {
                 complete: function(results) {
@@ -351,6 +371,7 @@
                         output += `\n${'='.repeat(80)}\n\n`;
                         
                         let matchCount = 0;
+                        matchedRows = [];
                         
                         for (let i = 1; i < rows.length; i++) {
                             const row = rows[i];
@@ -372,20 +393,28 @@
                                 matchCount++;
                                 output += `Row ${i + 1}`;
                                 
+                                let rowData = {
+                                    rowNumber: i + 1,
+                                    data: {}
+                                };
+                                
                                 for (let colIdx of displayColumns) {
                                     if (colIdx < row.length && colIdx < headers.length) {
                                         const columnName = headers[colIdx] || `Column ${colIdx + 1}`;
                                         const cellValue = row[colIdx] || '(empty)';
                                         output += `, ${columnName}: ${cellValue}`;
+                                        rowData.data[columnName] = cellValue;
                                     }
                                 }
                                 
                                 if (matchedColumn >= 0 && matchedColumn < headers.length) {
                                     const matchedColName = headers[matchedColumn] || `Column ${matchedColumn + 1}`;
                                     output += `, Matched In: ${matchedColName}`;
+                                    rowData.matchedIn = matchedColName;
                                 }
                                 
                                 output += '\n';
+                                matchedRows.push(rowData);
                             }
                         }
                         
@@ -395,7 +424,7 @@
                         resultsData = output;
                         document.getElementById('resultsContent').textContent = output;
                         document.getElementById('results').style.display = 'block';
-                        document.getElementById('downloadBtn').style.display = 'inline-block';
+                        document.getElementById('downloadSection').style.display = 'block';
                         setStatus(`✅ Success! Found ${matchCount} matching rows.`, 'success');
                         
                     } catch (error) {
@@ -409,6 +438,28 @@
         }
 
         function downloadResults() {
+            const format = document.getElementById('formatSelect').value;
+            
+            switch(format) {
+                case 'txt':
+                    downloadTXT();
+                    break;
+                case 'csv':
+                    downloadCSV();
+                    break;
+                case 'json':
+                    downloadJSON();
+                    break;
+                case 'xlsx':
+                    downloadXLSX();
+                    break;
+                case 'pdf':
+                    downloadPDF();
+                    break;
+            }
+        }
+
+        function downloadTXT() {
             const blob = new Blob([resultsData], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -416,6 +467,136 @@
             a.download = 'csv_match_results.txt';
             a.click();
             URL.revokeObjectURL(url);
+        }
+
+        function downloadCSV() {
+            if (matchedRows.length === 0) {
+                alert('No data to download');
+                return;
+            }
+            
+            const columns = ['Row Number'];
+            const firstRow = matchedRows[0];
+            Object.keys(firstRow.data).forEach(col => columns.push(col));
+            if (firstRow.matchedIn) columns.push('Matched In');
+            
+            let csvContent = columns.join(',') + '\n';
+            
+            matchedRows.forEach(row => {
+                let rowArray = [row.rowNumber];
+                Object.keys(firstRow.data).forEach(col => {
+                    const value = row.data[col] || '';
+                    const escapedValue = value.toString().includes(',') ? `"${value.replace(/"/g, '""')}"` : value;
+                    rowArray.push(escapedValue);
+                });
+                if (row.matchedIn) rowArray.push(row.matchedIn);
+                csvContent += rowArray.join(',') + '\n';
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'csv_match_results.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadJSON() {
+            const jsonData = {
+                metadata: {
+                    file: currentFile.name,
+                    searchCriteria: document.getElementById('searchValue').value,
+                    searchColumns: document.getElementById('columnRange').value,
+                    totalMatches: matchedRows.length
+                },
+                results: matchedRows
+            };
+            
+            const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'csv_match_results.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadXLSX() {
+            if (matchedRows.length === 0) {
+                alert('No data to download');
+                return;
+            }
+            
+            const wsData = [];
+            
+            const headers = ['Row Number'];
+            const firstRow = matchedRows[0];
+            Object.keys(firstRow.data).forEach(col => headers.push(col));
+            if (firstRow.matchedIn) headers.push('Matched In');
+            wsData.push(headers);
+            
+            matchedRows.forEach(row => {
+                let rowArray = [row.rowNumber];
+                Object.keys(firstRow.data).forEach(col => {
+                    rowArray.push(row.data[col] || '');
+                });
+                if (row.matchedIn) rowArray.push(row.matchedIn);
+                wsData.push(rowArray);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            XLSX.utils.book_append_sheet(wb, ws, 'Match Results');
+            
+            XLSX.writeFile(wb, 'csv_match_results.xlsx');
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 10;
+            let y = 20;
+            
+            doc.setFontSize(16);
+            doc.text('CSV Match Results', margin, y);
+            y += 10;
+            
+            doc.setFontSize(10);
+            doc.text(`File: ${currentFile.name}`, margin, y);
+            y += 6;
+            doc.text(`Search Value: ${document.getElementById('searchValue').value}`, margin, y);
+            y += 6;
+            doc.text(`Total Matches: ${matchedRows.length}`, margin, y);
+            y += 10;
+            
+            doc.setFontSize(9);
+            matchedRows.forEach((row, index) => {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                let rowText = `Row ${row.rowNumber}: `;
+                const entries = Object.entries(row.data).map(([k, v]) => `${k}: ${v}`);
+                if (row.matchedIn) entries.push(`Matched In: ${row.matchedIn}`);
+                rowText += entries.join(', ');
+                
+                const lines = doc.splitTextToSize(rowText, pageWidth - 2 * margin);
+                lines.forEach(line => {
+                    if (y > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    doc.text(line, margin, y);
+                    y += 5;
+                });
+                y += 2;
+            });
+            
+            doc.save('csv_match_results.pdf');
         }
     </script>
 </body>
