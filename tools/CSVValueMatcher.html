@@ -202,7 +202,8 @@
                     <li>Specify which columns to search in (e.g., "R:BGB" or "A,C,D")</li>
                     <li>Enter the text value to search for (e.g., "HAS", "Yes", "Active")</li>
                     <li>Choose which columns you want to see in the output</li>
-                    <li><strong>Note:</strong> Column names are taken from Row 1 of your CSV</li>
+                    <li><strong>NEW:</strong> Shows ALL matching headers for each row where value appears</li>
+                    <li><strong>NEW:</strong> Output format: [Row Identifier], [Header1], [Header2], ...</li>
                 </ul>
             </div>
 
@@ -238,13 +239,15 @@
                 <div class="section-title">3. Choose Output Columns</div>
                 
                 <label>Columns to Display in Results:</label>
-                <input type="text" id="outputColumns" placeholder="e.g., C,A or A,B,C">
-                <div class="hint">Comma-separated column letters (e.g., C,A shows Column C then Column A)</div>
+                <input type="text" id="outputColumns" placeholder="e.g., A or A,B,C">
+                <div class="hint">First column will be used as the row identifier. Example: "A" uses Column A values as identifiers</div>
                 
                 <div class="example">
                     <div class="example-title">Example Output Format:</div>
-                    <div>Row 5, Menu Item: Burger, Ingredient: Gluten</div>
-                    <div style="margin-top: 5px; color: #666;">(Shows row number + values from columns you specified)</div>
+                    <div><strong>Input:</strong> Burger, 1, 0, 1, 1</div>
+                    <div><strong>Searching for "1" in columns B:E</strong></div>
+                    <div><strong>Output:</strong> Burger, HasGluten, HasDairy, HasEggs</div>
+                    <div style="margin-top: 5px; color: #666;">(Shows row identifier + all header names where value was found)</div>
                 </div>
             </div>
 
@@ -257,7 +260,7 @@
             <div id="downloadSection" style="display:none; margin-top: 30px;">
                 <div class="section" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); padding: 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3); border: 3px solid #2f855a;">
                     <div class="section-title" style="color: white; font-size: 24px; text-align: center; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
-                        ⬇️ 4. DOWNLOAD YOUR RESULTS ⬇️
+                       ⬇️ 4. DOWNLOAD YOUR RESULTS ⬇️
                     </div>
                     <label style="color: white; font-size: 18px; font-weight: 700; text-align: center; display: block; margin-bottom: 12px;">
                         📁 Choose Your Download Format:
@@ -291,6 +294,7 @@
         let resultsData = '';
         let matchedRows = [];
         let currentFile = null;
+        let headers = [];
 
         document.getElementById('fileInput').addEventListener('change', function(e) {
             currentFile = e.target.files[0];
@@ -360,70 +364,100 @@
                 complete: function(results) {
                     try {
                         const rows = results.data;
-                        const headers = rows[0];
+                        headers = rows[0];
                         
                         const searchColumns = parseColumnRange(columnRange);
                         const displayColumns = parseColumnRange(outputColumns);
                         const searchTerm = searchValue.trim().toUpperCase();
                         
-                        let output = `CSV Analysis Results\n`;
-                        output += `File: ${currentFile.name}\n`;
-                        output += `Total Rows: ${rows.length - 1}\n`;
-                        output += `Total Columns: ${headers.length}\n`;
-                        output += `Searching in columns: ${columnRange}\n`;
-                        output += `Looking for: "${searchValue}"\n`;
-                        output += `\n${'='.repeat(80)}\n\n`;
+                        // Create formatted output
+                        let output = '╔══════════════════════════════════════════════════════════════╗\n';
+                        output += '║                     CSV ANALYSIS RESULTS                      ║\n';
+                        output += '╠══════════════════════════════════════════════════════════════╣\n';
+                        output += `║ File: ${currentFile.name.padEnd(55)} ║\n`;
+                        output += `║ Total Rows: ${(rows.length - 1).toString().padEnd(50)} ║\n`;
+                        output += `║ Search Columns: ${columnRange.padEnd(47)} ║\n`;
+                        output += `║ Search Value: "${searchValue}"${' '.repeat(57 - searchValue.length - 2)}║\n`;
+                        output += '╠══════════════════════════════════════════════════════════════╣\n';
+                        output += '║                        MATCHING ROWS                         ║\n';
+                        output += '╠══════════════════════════════════════════════════════════════╣\n';
                         
                         let matchCount = 0;
                         matchedRows = [];
                         
+                        // Process each data row
                         for (let i = 1; i < rows.length; i++) {
                             const row = rows[i];
-                            let foundMatch = false;
-                            let matchedColumn = -1;
+                            let matchedHeaders = [];
                             
+                            // Check ALL search columns for matches
                             for (let colIdx of searchColumns) {
                                 if (colIdx < row.length) {
                                     const cell = row[colIdx];
+                                    // Check if cell exists and matches search term
                                     if (cell && cell.toString().trim().toUpperCase() === searchTerm) {
-                                        foundMatch = true;
-                                        matchedColumn = colIdx;
-                                        break;
+                                        // Get the header from row 1 for this column
+                                        if (colIdx < headers.length) {
+                                            matchedHeaders.push(headers[colIdx] || `Column ${colIdx + 1}`);
+                                        } else {
+                                            matchedHeaders.push(`Column ${colIdx + 1}`);
+                                        }
                                     }
                                 }
                             }
                             
-                            if (foundMatch) {
+                            // If we found ANY matches in this row
+                            if (matchedHeaders.length > 0) {
                                 matchCount++;
-                                output += `Row ${i + 1}`;
                                 
+                                // Get the row identifier from first display column
+                                let rowIdentifier = '';
+                                if (displayColumns.length > 0 && displayColumns[0] < row.length) {
+                                    rowIdentifier = row[displayColumns[0]] || '(empty)';
+                                } else if (displayColumns.length > 0) {
+                                    rowIdentifier = `Row ${i + 1}`;
+                                }
+                                
+                                // Build the output line
+                                output += `║ ${rowIdentifier}`;
+                                
+                                // Add matched headers
+                                if (matchedHeaders.length > 0) {
+                                    const headerStr = matchedHeaders.join(', ');
+                                    output += `\n║   → ${headerStr}`;
+                                }
+                                
+                                output += '\n║\n';
+                                
+                                // Store structured data for export
                                 let rowData = {
                                     rowNumber: i + 1,
-                                    data: {}
+                                    identifier: rowIdentifier,
+                                    matchedHeaders: matchedHeaders,
+                                    // Store all display column values
+                                    displayData: {}
                                 };
                                 
+                                // Store all display column values
                                 for (let colIdx of displayColumns) {
                                     if (colIdx < row.length && colIdx < headers.length) {
                                         const columnName = headers[colIdx] || `Column ${colIdx + 1}`;
                                         const cellValue = row[colIdx] || '(empty)';
-                                        output += `, ${columnName}: ${cellValue}`;
-                                        rowData.data[columnName] = cellValue;
+                                        rowData.displayData[columnName] = cellValue;
                                     }
                                 }
                                 
-                                if (matchedColumn >= 0 && matchedColumn < headers.length) {
-                                    const matchedColName = headers[matchedColumn] || `Column ${matchedColumn + 1}`;
-                                    output += `, Matched In: ${matchedColName}`;
-                                    rowData.matchedIn = matchedColName;
-                                }
-                                
-                                output += '\n';
                                 matchedRows.push(rowData);
                             }
                         }
                         
-                        output += `\n${'='.repeat(80)}\n`;
-                        output += `Total Matches Found: ${matchCount}\n`;
+                        // Add footer with summary
+                        output += '╠══════════════════════════════════════════════════════════════╣\n';
+                        output += '║                          SUMMARY                            ║\n';
+                        output += '╠══════════════════════════════════════════════════════════════╣\n';
+                        output += `║ Total Matching Rows: ${matchCount.toString().padEnd(42)} ║\n`;
+                        output += `║ Format: [Row Identifier], [Matched Header1], [Header2], ... ║\n`;
+                        output += '╚══════════════════════════════════════════════════════════════╝\n';
                         
                         resultsData = output;
                         document.getElementById('resultsContent').textContent = output;
@@ -431,15 +465,11 @@
                         
                         // Show download section
                         const downloadSection = document.getElementById('downloadSection');
-                        console.log('Download section element:', downloadSection);
                         if (downloadSection) {
                             downloadSection.style.display = 'block';
-                            console.log('Download section should now be visible');
-                        } else {
-                            console.error('Download section not found!');
                         }
                         
-                        setStatus(`✅ Success! Found ${matchCount} matching rows.`, 'success');
+                        setStatus(`✅ Success! Found ${matchCount} matching rows with ${matchedRows.reduce((total, row) => total + row.matchedHeaders.length, 0)} total matches.`, 'success');
                         
                     } catch (error) {
                         setStatus(`❌ Error: ${error.message}`, 'error');
@@ -489,22 +519,17 @@
                 return;
             }
             
-            const columns = ['Row Number'];
-            const firstRow = matchedRows[0];
-            Object.keys(firstRow.data).forEach(col => columns.push(col));
-            if (firstRow.matchedIn) columns.push('Matched In');
-            
-            let csvContent = columns.join(',') + '\n';
+            // Create CSV with row identifier and matched headers
+            let csvContent = 'Row Identifier,Matched Headers\n';
             
             matchedRows.forEach(row => {
-                let rowArray = [row.rowNumber];
-                Object.keys(firstRow.data).forEach(col => {
-                    const value = row.data[col] || '';
-                    const escapedValue = value.toString().includes(',') ? `"${value.replace(/"/g, '""')}"` : value;
-                    rowArray.push(escapedValue);
-                });
-                if (row.matchedIn) rowArray.push(row.matchedIn);
-                csvContent += rowArray.join(',') + '\n';
+                let escapedIdentifier = row.identifier.toString().includes(',') ? 
+                    `"${row.identifier.replace(/"/g, '""')}"` : row.identifier;
+                
+                let escapedHeaders = row.matchedHeaders.length > 0 ?
+                    `"${row.matchedHeaders.join(', ').replace(/"/g, '""')}"` : '';
+                
+                csvContent += `${escapedIdentifier},${escapedHeaders}\n`;
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -520,9 +545,11 @@
             const jsonData = {
                 metadata: {
                     file: currentFile.name,
-                    searchCriteria: document.getElementById('searchValue').value,
+                    searchValue: document.getElementById('searchValue').value,
                     searchColumns: document.getElementById('columnRange').value,
-                    totalMatches: matchedRows.length
+                    outputColumns: document.getElementById('outputColumns').value,
+                    totalMatchingRows: matchedRows.length,
+                    totalMatches: matchedRows.reduce((total, row) => total + row.matchedHeaders.length, 0)
                 },
                 results: matchedRows
             };
@@ -542,21 +569,16 @@
                 return;
             }
             
-            const wsData = [];
-            
-            const headers = ['Row Number'];
-            const firstRow = matchedRows[0];
-            Object.keys(firstRow.data).forEach(col => headers.push(col));
-            if (firstRow.matchedIn) headers.push('Matched In');
-            wsData.push(headers);
+            // Create worksheet data
+            const wsData = [
+                ['Row Identifier', 'Matched Headers']
+            ];
             
             matchedRows.forEach(row => {
-                let rowArray = [row.rowNumber];
-                Object.keys(firstRow.data).forEach(col => {
-                    rowArray.push(row.data[col] || '');
-                });
-                if (row.matchedIn) rowArray.push(row.matchedIn);
-                wsData.push(rowArray);
+                wsData.push([
+                    row.identifier,
+                    row.matchedHeaders.join(', ')
+                ]);
             });
             
             const wb = XLSX.utils.book_new();
@@ -571,43 +593,59 @@
             const doc = new jsPDF();
             
             const pageWidth = doc.internal.pageSize.getWidth();
-            const margin = 10;
+            const margin = 15;
             let y = 20;
             
-            doc.setFontSize(16);
+            // Header
+            doc.setFontSize(18);
             doc.text('CSV Match Results', margin, y);
             y += 10;
             
             doc.setFontSize(10);
             doc.text(`File: ${currentFile.name}`, margin, y);
-            y += 6;
+            y += 7;
             doc.text(`Search Value: ${document.getElementById('searchValue').value}`, margin, y);
-            y += 6;
-            doc.text(`Total Matches: ${matchedRows.length}`, margin, y);
+            y += 7;
+            doc.text(`Total Rows with Matches: ${matchedRows.length}`, margin, y);
+            y += 15;
+            
+            // Results
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.text('Results:', margin, y);
             y += 10;
             
+            doc.setFont(undefined, 'normal');
             doc.setFontSize(9);
+            
             matchedRows.forEach((row, index) => {
                 if (y > 270) {
                     doc.addPage();
                     y = 20;
+                    doc.setFontSize(9);
                 }
                 
-                let rowText = `Row ${row.rowNumber}: `;
-                const entries = Object.entries(row.data).map(([k, v]) => `${k}: ${v}`);
-                if (row.matchedIn) entries.push(`Matched In: ${row.matchedIn}`);
-                rowText += entries.join(', ');
+                // Row identifier
+                doc.setFont(undefined, 'bold');
+                doc.text(`${row.identifier}:`, margin, y);
+                y += 5;
                 
-                const lines = doc.splitTextToSize(rowText, pageWidth - 2 * margin);
-                lines.forEach(line => {
-                    if (y > 270) {
-                        doc.addPage();
-                        y = 20;
-                    }
-                    doc.text(line, margin, y);
-                    y += 5;
-                });
-                y += 2;
+                // Matched headers
+                doc.setFont(undefined, 'normal');
+                if (row.matchedHeaders.length > 0) {
+                    const headerText = row.matchedHeaders.join(', ');
+                    const lines = doc.splitTextToSize(headerText, pageWidth - 2 * margin);
+                    lines.forEach(line => {
+                        if (y > 270) {
+                            doc.addPage();
+                            y = 20;
+                            doc.setFontSize(9);
+                        }
+                        doc.text(`  ${line}`, margin + 5, y);
+                        y += 5;
+                    });
+                }
+                y += 8;
             });
             
             doc.save('csv_match_results.pdf');
