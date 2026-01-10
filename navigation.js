@@ -11,7 +11,6 @@
             { href: 'tools/CSVValueMatcher.html', text: 'CSV Value Matcher Tool'},
             { href: 'innovoid/cardportal.html', text: 'Epistemological Analysis Explored [Prompt-Guided LLM Navigation] '},
             { href: 'toys/hben.html', text: 'HBEN Analyzer'},
-            { href: 'resume/resumegallery.html', text: 'Resume Gallery'},
             { href: 'https://blossomstechservice.github.io/blossomstechservice/index.html', text: 'BlossomTechService', title: 'External: BlossomTech Service', external: true }
         ]
     };
