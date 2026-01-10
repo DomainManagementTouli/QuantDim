@@ -255,19 +255,23 @@
             <div id="status"></div>
 
             <div id="downloadSection" style="display:none; margin-top: 30px;">
-                <div class="section">
-                    <div class="section-title">4. Download Results</div>
-                    <label>Select Download Format:</label>
-                    <select id="formatSelect">
-                        <option value="txt">TXT - Plain Text</option>
-                        <option value="csv">CSV - Comma Separated Values</option>
-                        <option value="json">JSON - JavaScript Object Notation</option>
-                        <option value="xlsx">XLSX - Excel Spreadsheet</option>
-                        <option value="pdf">PDF - Portable Document Format</option>
+                <div class="section" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); padding: 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3); border: 3px solid #2f855a;">
+                    <div class="section-title" style="color: white; font-size: 24px; text-align: center; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
+                        ⬇️ 4. DOWNLOAD YOUR RESULTS ⬇️
+                    </div>
+                    <label style="color: white; font-size: 18px; font-weight: 700; text-align: center; display: block; margin-bottom: 12px;">
+                        📁 Choose Your Download Format:
+                    </label>
+                    <select id="formatSelect" style="font-size: 16px; font-weight: 600; padding: 15px; border: 3px solid white; background: white; color: #2f855a; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                        <option value="txt">📄 TXT - Plain Text</option>
+                        <option value="csv">📊 CSV - Comma Separated Values</option>
+                        <option value="json">🔧 JSON - JavaScript Object Notation</option>
+                        <option value="xlsx">📈 XLSX - Excel Spreadsheet</option>
+                        <option value="pdf">📕 PDF - Portable Document Format</option>
                     </select>
-                    <div style="margin-top: 15px;">
-                        <button class="btn-secondary" onclick="downloadResults()">
-                            💾 Download Results
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button class="btn-secondary" onclick="downloadResults()" style="font-size: 18px; padding: 15px 40px; background: white; color: #38a169; border: 3px solid white; box-shadow: 0 6px 16px rgba(0,0,0,0.3); font-weight: 700;">
+                            💾 DOWNLOAD NOW
                         </button>
                     </div>
                 </div>
@@ -424,7 +428,17 @@
                         resultsData = output;
                         document.getElementById('resultsContent').textContent = output;
                         document.getElementById('results').style.display = 'block';
-                        document.getElementById('downloadSection').style.display = 'block';
+                        
+                        // Show download section
+                        const downloadSection = document.getElementById('downloadSection');
+                        console.log('Download section element:', downloadSection);
+                        if (downloadSection) {
+                            downloadSection.style.display = 'block';
+                            console.log('Download section should now be visible');
+                        } else {
+                            console.error('Download section not found!');
+                        }
+                        
                         setStatus(`✅ Success! Found ${matchCount} matching rows.`, 'success');
                         
                     } catch (error) {
